@@ -1,0 +1,7 @@
+fn stringify [n] => switch(n) {
+    case 0: 'zero'
+    case 1: 'one'
+    case 2: 'two'
+    case 3: 'three'
+    default: 'What number is this...?'
+}

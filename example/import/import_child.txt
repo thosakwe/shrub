@@ -1,0 +1,10 @@
+import Console
+import Navigator::Geolocation
+with Async
+
+// All symbols from `Navigator::Geolocation` are available under the namespace
+// `Geolocation`.
+fn main => async(
+    Geolocation::currentPosition(),
+    [pos] => pos.coords
+)

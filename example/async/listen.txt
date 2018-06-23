@@ -1,0 +1,14 @@
+import DOM
+with Async
+
+fn main =>
+    saySomethingOnClick(
+        DOM.querySelector('#my-button'),
+        'Hello, world!'
+    )
+
+fn saySomethingOnClick [el, msg] =>
+    listen(
+        el.onClick,
+        [e] => DOM.alert('Click callback: %{msg}')
+    )

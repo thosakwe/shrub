@@ -1,0 +1,58 @@
+import Ajax
+import UI
+
+with Async
+with DOM
+
+// The entrypoint. Typically, you just call `UI::render` and go.
+//
+// Hooray for stateless UI!
+fn main =>
+    UI::render(
+        todoApp,
+        initState
+    )
+
+// The `UI` library calls this function once, and allows to fire off
+// asynchronous tasks, while also providing an initial state.
+fn initState [update] =>
+    // Asynchronously fetch the todo list...
+    fetchTodos(update);
+
+    // Return the initial state.
+    {
+        loading: True,
+        todos: []
+    }
+
+// Fetch todo list via AJAX, update the UI on completion.
+fn fetchTodos [update] =>
+    async (
+        Ajax::getJSON(/api/todos.json', {accept: 'application/json'}),
+        [todos] => update([state] => {...state, todos})
+    )
+
+// Obviously a simple example, but just note:
+// The UI entry point should take exactly two arguments:
+//   * The state
+//   * A function that can be called to update the application state
+fn todoApp [state, update] =>
+    state.loading ? loadingScreen() : todoList(state.todos)
+
+// Render a loading screen.
+fn loadingScreen =>
+    div (
+        h1(text('Hey there!')),
+        p(text('Loading...'))
+    )
+
+// A simple ul-based todo list.
+fn todoList [todos] =>
+    div(
+        h1(text('Todos: %{todos.length}')),
+        ul(each(
+            todos,
+            [todo] => li('You need to: %{todo.text}'))
+        )
+    )
+

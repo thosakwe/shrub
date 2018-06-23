@@ -1,0 +1,8 @@
+import Async
+import Console
+import Navigator::GeoLocation
+
+fn main => Async::listen(
+    GeoLocation::watchPosition(),
+    [pos] => Console::log('Coords', pos.coords)
+)

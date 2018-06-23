@@ -1,0 +1,7 @@
+import DOM
+
+fn main => DOM::style (
+    DOM::querySelector('#red-button'),
+    'background-color',
+    'red'
+)

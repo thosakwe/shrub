@@ -1,0 +1,9 @@
+type StringOrStringList = String | String[]
+
+// `s` will be inferred to `String | String[]`, of which
+// `StringOrStringList` is an alias.
+fn stringOrFirst [s] =>
+    match (s) {
+        case String: s
+        case String[]: s[0]
+    }
