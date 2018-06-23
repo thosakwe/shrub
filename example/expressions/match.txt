@@ -1,0 +1,4 @@
+fn matchIt [x] => match x {
+    case Number => 34
+    case String => x.length
+}

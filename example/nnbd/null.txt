@@ -1,0 +1,19 @@
+// All data in Shrub is non-null by default.
+// However, there may be times when you need a sentinel value,
+// or an "unset" value.
+//
+// In such a case, return `null`, the only instance of the `Null` type.
+
+// The return type here is `Number | Null`.
+fn evenOrNull [n] =>
+    (n % 2 == 0)
+    ? n
+    : null
+
+// As with any union type, the only way to read data from a union with `Null`
+// is via a `match` expression.
+fn matchIt [n] => match n {
+    case Null => "Wow, it's null!"
+
+    case Number => "Here's the number: %{n}"
+}
