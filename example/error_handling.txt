@@ -1,0 +1,13 @@
+// Shrub doesn't have `try`/`catch` functionality, and this is deliberate.
+// With the clean, type-safe infrastructure aroudn type matching, it simply
+// makes sense for errors to be regular values, and handled via `match` expressions.
+
+fn main => match (potentialError('hello')) as str {
+    case String => 'Yay! %{str}'
+    case ArgumentError => 'No!!!!'
+}
+
+fn potentialError [n] => match n {
+    case String => n
+    default => ArgumentError('Whoops! Not a string!')
+}
