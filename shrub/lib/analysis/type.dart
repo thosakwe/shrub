@@ -9,4 +9,7 @@ class ShrubType {
   ShrubType(this.package, this.name);
 
   String get qualifiedName => '${package.qualifiedName}::$name';
+
+  bool isAssignableFrom(ShrubType other) =>
+      other.qualifiedName == qualifiedName;
 }
