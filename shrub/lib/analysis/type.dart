@@ -1,4 +1,4 @@
-import 'package.dart';
+import 'package:shrub/analysis/analysis.dart';
 
 class ShrubType {
   final ShrubPackage package;

@@ -1,9 +1,10 @@
+import 'package:shrub/analysis/analysis.dart';
 import 'package:source_span/source_span.dart';
-import 'type.dart';
 
 class ShrubObject {
+  final ShrubPackage package;
   final ShrubType type;
   final FileSpan span;
 
-  ShrubObject(this.type, this.span);
+  ShrubObject(this.package, this.type, this.span);
 }

@@ -1,6 +1,5 @@
+import 'package:shrub/analysis/analysis.dart';
 import 'package:symbol_table/symbol_table.dart';
-import 'object.dart';
-import 'type.dart';
 
 class ShrubPackage {
   final SymbolTable<ShrubObject> scope = new SymbolTable<ShrubObject>();

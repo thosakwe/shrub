@@ -1,5 +1,4 @@
-import '../package.dart';
-import '../type.dart';
+import 'package:shrub/analysis/analysis.dart';
 
 class ShrubFunctionType extends ShrubType {
   final List<ShrubType> parameters = [];
