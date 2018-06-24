@@ -7,15 +7,19 @@ abstract class ShrubFilesystem {
 abstract class ShrubDirectory {
   String get path;
 
-  Future<List<ShrubFile>> listShrubFiles();
+  ShrubDirectory child(String dirname);
 
-  Future<ShrubFile> findShrubFile(String name);
+  Stream<ShrubFile> listShrubFiles();
+
+  ShrubFile findShrubFile(String name);
 }
 
 abstract class ShrubFile {
   String get path;
 
   Future<bool> get exists;
+
+  ShrubFile changeExtension(String extension);
 
   Future<String> read();
 
