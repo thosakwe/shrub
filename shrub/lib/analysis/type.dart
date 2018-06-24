@@ -10,6 +10,7 @@ class ShrubType {
 
   String get qualifiedName => '${package.qualifiedName}::$name';
 
-  bool isAssignableFrom(ShrubType other) =>
-      other.qualifiedName == qualifiedName;
+  bool isExactly(ShrubType other) => other.qualifiedName == qualifiedName;
+
+  bool isAssignableFrom(ShrubType other) => isExactly(other);
 }
