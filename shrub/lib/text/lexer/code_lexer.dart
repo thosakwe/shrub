@@ -1,4 +1,4 @@
-import 'lexer.dart';
+import 'lexer_class.dart';
 import 'lexer_mode.dart';
 
 class CodeLexer {
