@@ -15,6 +15,8 @@ abstract class ShrubDirectory {
 }
 
 abstract class ShrubFile {
+  ShrubDirectory get directory;
+
   String get path;
 
   Future<bool> get exists;

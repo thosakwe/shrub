@@ -54,6 +54,10 @@ class ShrubAssetFile extends ShrubFile {
   ShrubAssetFile(this.filesystem, this.assetId);
 
   @override
+  ShrubDirectory get directory =>
+      new ShrubAssetDirectory(filesystem, p.dirname(path));
+
+  @override
   Future<bool> get exists => filesystem.reader.canRead(assetId);
 
   @override
