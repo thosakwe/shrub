@@ -1,0 +1,12 @@
+name: shrub
+dependencies:
+  angel_serialize: ^2.0.0
+  js_ast:
+    git: https://github.com/thosakwe/js_ast.git
+  path: ^1.0.0
+  source_maps: ^0.10.5
+  source_span: ^1.0.0
+  symbol_table: ^1.0.0
+dev_dependencies:
+  angel_serialize_generator: ^2.0.0
+  build_runner: ^0.8.0
