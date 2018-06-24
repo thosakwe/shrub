@@ -1,3 +1,4 @@
+import '../token.dart';
 import 'lexer_class.dart';
 import 'lexer_mode.dart';
 
