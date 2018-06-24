@@ -8,11 +8,15 @@ class ShrubAssetFilesystem extends ShrubFilesystem {
   final String package;
   final AssetReader reader;
   final AssetWriter writer;
+  p.Context _context;
 
   ShrubAssetFilesystem(this.package, this.reader, this.writer);
 
   factory ShrubAssetFilesystem.forBuildStep(BuildStep buildStep) =>
       new ShrubAssetFilesystem(buildStep.inputId.package, buildStep, buildStep);
+
+  @override
+  p.Context get context => _context ??= new p.Context(current: '$package|');
 
   @override
   ShrubDirectory directory(String path) {
@@ -32,10 +36,9 @@ class ShrubAssetDirectory extends ShrubDirectory {
   }
 
   @override
-  ShrubFile findShrubFile(String name) {
-    var filePath = p.setExtension(p.join(path, name), shrubFileExtension);
-    var assetId = new AssetId(filesystem.package, filePath);
-    return new ShrubAssetFile(filesystem, assetId);
+  ShrubFile findFile(String name) {
+    return new ShrubAssetFile(
+        filesystem, new AssetId(filesystem.package, name));
   }
 
   @override

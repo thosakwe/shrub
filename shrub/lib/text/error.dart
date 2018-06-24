@@ -1,3 +1,4 @@
+import 'package:shrub/shrub.dart';
 import 'package:source_span/source_span.dart';
 
 class ShrubException implements Exception {

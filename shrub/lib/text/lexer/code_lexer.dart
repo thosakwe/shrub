@@ -1,6 +1,4 @@
-import '../token.dart';
-import 'lexer_class.dart';
-import 'lexer_mode.dart';
+import 'package:shrub/shrub.dart';
 
 class CodeLexer {
   final Lexer lexer;

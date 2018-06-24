@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'package:path/path.dart' as p;
+import 'package:shrub/shrub.dart';
 
 abstract class ShrubFilesystem {
+  p.Context get context;
+
   ShrubDirectory directory(String path);
 }
 
@@ -11,7 +15,10 @@ abstract class ShrubDirectory {
 
   Stream<ShrubFile> listShrubFiles();
 
-  ShrubFile findShrubFile(String name);
+  ShrubFile findFile(String basename);
+
+  ShrubFile findShrubFile(String name) =>
+      findFile(p.setExtension(name, shrubFileExtension));
 }
 
 abstract class ShrubFile {

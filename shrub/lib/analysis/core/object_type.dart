@@ -1,4 +1,4 @@
-import 'package:shrub/analysis/analysis.dart';
+import 'package:shrub/shrub.dart';
 
 class ShrubObjectType extends ShrubType {
   final Map<String, ShrubType> fields = {};

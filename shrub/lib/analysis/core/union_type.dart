@@ -1,4 +1,4 @@
-import 'package:shrub/analysis/analysis.dart';
+import 'package:shrub/shrub.dart';
 
 class ShrubUnionType extends ShrubType {
   final List<ShrubType> alternatives = [];

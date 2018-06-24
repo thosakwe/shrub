@@ -1,11 +1,6 @@
 import 'dart:collection';
+import 'package:shrub/shrub.dart';
 import 'package:string_scanner/string_scanner.dart';
-import '../error.dart';
-import '../token.dart';
-import 'code_lexer.dart';
-import 'comment_lexer.dart';
-import 'lexer_mode.dart';
-import 'string_lexer.dart';
 
 class Lexer {
   final List<ShrubException> errors = <ShrubException>[];
