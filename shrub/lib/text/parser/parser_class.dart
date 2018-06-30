@@ -24,9 +24,13 @@ class ShrubParser extends ShrubBaseParser {
       function = functionParser.parseFunction();
 
       if (function == null) {
-        var token = consume();
-        errors.add(new ShrubException(
-            ShrubExceptionSeverity.error, token.span, "Unexpected text."));
+        if (!done) {
+          var token = consume();
+          if (token != null) {
+            errors.add(new ShrubException(
+                ShrubExceptionSeverity.error, token.span, "Unexpected text."));
+          }
+        }
       } else {
         span ??= function.span;
         span = span.expand(function.span);

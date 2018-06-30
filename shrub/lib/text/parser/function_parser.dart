@@ -34,6 +34,7 @@ class ShrubFunctionParser {
         var comma = parser.nextToken(TokenType.comma);
         if (comma == null) break;
         span = span.expand(lastSpan = comma.span);
+        parameter = parseParameter();
       }
 
       var rBracket = parser.nextToken(TokenType.rBracket);
@@ -52,6 +53,7 @@ class ShrubFunctionParser {
     if (arrow == null) {
       parser.errors.add(new ShrubException(ShrubExceptionSeverity.error,
           lastSpan, 'Missing "=>" in function definition.'));
+      return null;
     }
 
     span = span.expand(lastSpan = arrow.span);

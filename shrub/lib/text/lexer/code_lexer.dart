@@ -69,6 +69,7 @@ class ShrubCodeLexer {
     new RegExp(r'[0-9]+\.[0-9]+'): TokenType.radix10,
     singleQuotedString: TokenType.string,
     doubleQuotedString: TokenType.string,
+    new RegExp(r'[A-Za-z_][A-Za-z0-9_]*'): TokenType.id,
   };
 
   void scan() {
@@ -97,6 +98,7 @@ class ShrubCodeLexer {
 
       if (matches.isEmpty) {
         _unexpectedStart ??= lexer.scanner.state;
+        lexer.scanner.readChar();
       } else {
         flush();
         matches.sort((a, b) => b.span.length.compareTo(a.span.length));
@@ -106,6 +108,8 @@ class ShrubCodeLexer {
           ..tokens.add(token)
           ..scanner.scan(token.span.text);
       }
+
+      lexer.scanner.scan(_whitespace);
     }
 
     flush();
