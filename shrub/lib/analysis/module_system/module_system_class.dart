@@ -1,26 +1,16 @@
 import 'package:shrub/shrub.dart';
 
-class ShrubModuleSystem {
+/// The module system itself, and a view thereof.
+///
+/// It can resolve internal packages and installed packages.
+class ShrubModuleSystem extends ModuleSystemView {
   final Map<String, List<ShrubPackage>> packageCache = {};
   final ShrubFilesystem filesystem;
   final ShrubDirectory globalCacheDirectory;
 
   ShrubModuleSystem(this.filesystem, this.globalCacheDirectory);
 
-  ShrubPackage findQualifiedPackage(String qualifiedName, String version) {
-    var parts = qualifiedName.split('::');
-    var pkg = findPackage(parts[0], version);
-
-    for (var part in parts.skip(1)) {
-      pkg = pkg.children.putIfAbsent(
-          part,
-          () => new ShrubPackage(
-              pkg, pkg.directory.child(part), part, pkg.version));
-    }
-
-    return pkg;
-  }
-
+  @override
   ShrubPackage findPackage(String name, String version) {
     var list = packageCache.putIfAbsent(name, () => []);
     var matching = list.firstWhere(

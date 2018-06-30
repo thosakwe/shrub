@@ -11,6 +11,8 @@ abstract class ShrubFilesystem {
 abstract class ShrubDirectory {
   String get path;
 
+  Future<bool> get exists;
+
   ShrubDirectory child(String dirname);
 
   Stream<ShrubFile> listShrubFiles();

@@ -30,6 +30,15 @@ class ShrubAssetDirectory extends ShrubDirectory {
 
   ShrubAssetDirectory(this.filesystem, this.path);
 
+  Glob get glob =>
+      new Glob(p.setExtension(p.join(path, '*'), shrubFileExtension));
+
+  @override
+  Future<bool> get exists => filesystem.reader
+      .findAssets(new Glob(glob.pattern, recursive: glob.recursive))
+      .isEmpty
+      .then((empty) => !empty);
+
   @override
   ShrubDirectory child(String dirname) {
     return new ShrubAssetDirectory(filesystem, p.join(path, dirname));
@@ -44,8 +53,7 @@ class ShrubAssetDirectory extends ShrubDirectory {
   @override
   Stream<ShrubFile> listShrubFiles() {
     return filesystem.reader
-        .findAssets(
-            new Glob(p.setExtension(p.join(path, '*'), shrubFileExtension)))
+        .findAssets(glob)
         .map((assetId) => new ShrubAssetFile(filesystem, assetId));
   }
 }
