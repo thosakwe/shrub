@@ -1,7 +1,7 @@
-class ShrubLexerMode {
-  final ShrubLexerModeType type;
+class LexerMode {
+  final LexerModeType type;
 
-  ShrubLexerMode(this.type);
+  LexerMode(this.type);
 }
 
-enum ShrubLexerModeType { code, string, comment }
+enum LexerModeType { code, string, comment }

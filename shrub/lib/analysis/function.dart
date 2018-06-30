@@ -6,11 +6,11 @@ class ShrubFunction extends ShrubObject {
   String name = '(anonymous function)';
   ShrubType returnType;
 
-  ShrubFunction(ShrubPackage package, FileSpan span)
+  ShrubFunction(Module package, FileSpan span)
       : super(package, null, span);
 
   @override
-  ShrubFunctionType get type => new ShrubFunctionType(package, name)
+  FunctionType get type => new FunctionType(package, name)
     ..parameters.addAll(parameters.map((p) => p.type))
     ..returnType = returnType;
 }

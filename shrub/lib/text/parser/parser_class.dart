@@ -1,19 +1,19 @@
 import 'package:shrub/shrub.dart';
 import 'package:source_span/source_span.dart';
 
-class ShrubParser extends ShrubBaseParser {
+class Parser extends BaseParser {
   final List<ShrubException> errors = [];
 
-  ShrubExpressionParser _expressionParser;
-  ShrubFunctionParser _functionParser;
+  ExpressionParser _expressionParser;
+  FunctionParser _functionParser;
 
-  ShrubParser(ShrubLexer lexer) : super(lexer);
+  Parser(Lexer lexer) : super(lexer);
 
-  ShrubExpressionParser get expressionParser =>
-      _expressionParser ??= new ShrubExpressionParser(this);
+  ExpressionParser get expressionParser =>
+      _expressionParser ??= new ExpressionParser(this);
 
-  ShrubFunctionParser get functionParser =>
-      _functionParser ??= new ShrubFunctionParser(this);
+  FunctionParser get functionParser =>
+      _functionParser ??= new FunctionParser(this);
 
   CompilationUnitContext parseCompilationUnit() {
     var functions = <FunctionContext>[];

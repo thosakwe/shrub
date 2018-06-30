@@ -2,7 +2,7 @@ import 'package:shrub/shrub.dart';
 import 'package:source_span/source_span.dart';
 
 class ShrubObject {
-  final ShrubPackage package;
+  final Module package;
   final ShrubType type;
   final FileSpan span;
 

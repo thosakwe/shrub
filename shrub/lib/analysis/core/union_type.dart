@@ -1,9 +1,9 @@
 import 'package:shrub/shrub.dart';
 
-class ShrubUnionType extends ShrubType {
+class UnionType extends ShrubType {
   final List<ShrubType> alternatives = [];
 
-  ShrubUnionType(ShrubPackage package, String name) : super(package, name);
+  UnionType(Module package, String name) : super(package, name);
 
   @override
   String get qualifiedName {
@@ -12,11 +12,11 @@ class ShrubUnionType extends ShrubType {
 
   @override
   bool isAssignableFrom(ShrubType other) {
-    if (other is! ShrubUnionType) {
+    if (other is! UnionType) {
       return alternatives.any((t) => t.isAssignableFrom(other));
     }
 
-    var union = other as ShrubUnionType;
+    var union = other as UnionType;
     return union.alternatives
         .every((from) => alternatives.any((to) => to.isAssignableFrom(from)));
   }

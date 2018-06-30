@@ -2,12 +2,12 @@ import 'dart:collection';
 import 'package:shrub/shrub.dart';
 import 'package:source_span/source_span.dart';
 
-class ShrubBaseParser {
+class BaseParser {
   final List<ShrubException> errors = [];
-  final ShrubLexer lexer;
+  final Lexer lexer;
   int _index = -1;
 
-  ShrubBaseParser(this.lexer) {
+  BaseParser(this.lexer) {
     errors.addAll(lexer.errors);
   }
 

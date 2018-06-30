@@ -1,7 +1,7 @@
 import 'package:shrub/shrub.dart';
 
 abstract class PrefixParselet<T> {
-  ExpressionContext<T> parse(ShrubParser parser, Token token);
+  ExpressionContext<T> parse(Parser parser, Token token);
 
   static const Map<TokenType, PrefixParselet> all = {
     TokenType.radix2: ShrubIntegerLiteralParser(),

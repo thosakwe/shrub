@@ -1,9 +1,9 @@
 import 'package:shrub/shrub.dart';
 
-class ShrubExpressionParser {
-  final ShrubParser parser;
+class ExpressionParser {
+  final Parser parser;
 
-  ShrubExpressionParser(this.parser);
+  ExpressionParser(this.parser);
 
   ExpressionContext parseExpression([int precedence = 0]) {
     var token = parser.peek();

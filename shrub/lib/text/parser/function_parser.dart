@@ -1,9 +1,9 @@
 import 'package:shrub/shrub.dart';
 
-class ShrubFunctionParser {
-  final ShrubParser parser;
+class FunctionParser {
+  final Parser parser;
 
-  ShrubFunctionParser(this.parser);
+  FunctionParser(this.parser);
 
   FunctionContext parseFunction() {
     var fn = parser.nextToken(TokenType.fn), span = fn?.span, lastSpan = span;

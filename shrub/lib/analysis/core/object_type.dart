@@ -1,9 +1,9 @@
 import 'package:shrub/shrub.dart';
 
-class ShrubObjectType extends ShrubType {
+class ObjectType extends ShrubType {
   final Map<String, ShrubType> fields = {};
 
-  ShrubObjectType(ShrubPackage package, String name) : super(package, name);
+  ObjectType(Module package, String name) : super(package, name);
 
   @override
   String get qualifiedName {
@@ -15,8 +15,8 @@ class ShrubObjectType extends ShrubType {
 
   @override
   bool isAssignableFrom(ShrubType other) {
-    if (other is! ShrubObjectType) return false;
-    var obj = other as ShrubObjectType;
+    if (other is! ObjectType) return false;
+    var obj = other as ObjectType;
 
     for (var key in fields.keys) {
       if (!fields[key].isAssignableFrom(obj.fields[key])) return false;

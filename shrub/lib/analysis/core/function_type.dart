@@ -1,10 +1,10 @@
 import 'package:shrub/shrub.dart';
 
-class ShrubFunctionType extends ShrubType {
+class FunctionType extends ShrubType {
   final List<ShrubType> parameters = [];
   ShrubType returnType;
 
-  ShrubFunctionType(ShrubPackage package, String name) : super(package, name);
+  FunctionType(Module package, String name) : super(package, name);
 
   @override
   String get qualifiedName {
@@ -15,8 +15,8 @@ class ShrubFunctionType extends ShrubType {
 
   @override
   bool isAssignableFrom(ShrubType other) {
-    if (other is! ShrubFunctionType) return false;
-    var fn = other as ShrubFunctionType;
+    if (other is! FunctionType) return false;
+    var fn = other as FunctionType;
 
     for (int i = 0; i < parameters.length; i++) {
       if (!parameters[i].isAssignableFrom(fn.parameters[i])) return false;

@@ -1,7 +1,7 @@
 import 'package:shrub/shrub.dart';
 
 class ShrubType {
-  final ShrubPackage package;
+  final Module package;
   final String name;
 
   // final TypeContext declaration;

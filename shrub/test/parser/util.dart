@@ -3,8 +3,8 @@ import 'package:string_scanner/string_scanner.dart';
 
 CompilationUnitContext parse(String string) {
   var scanner = new SpanScanner(string);
-  var lexer = new ShrubLexer(scanner)..scan();
-  var parser = new ShrubParser(lexer);
+  var lexer = new Lexer(scanner)..scan();
+  var parser = new Parser(lexer);
   var unit = parser.parseCompilationUnit();
   var errors =
       parser.errors.where((e) => e.severity == ShrubExceptionSeverity.error);
