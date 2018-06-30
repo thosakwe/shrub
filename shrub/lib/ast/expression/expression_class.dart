@@ -2,7 +2,7 @@ import 'package:shrub/shrub.dart';
 import 'package:source_span/source_span.dart';
 
 abstract class ExpressionContext<T> {
-  SourceSpan get span;
+  FileSpan get span;
 
   bool get hasConstantValue => false;
 

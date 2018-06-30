@@ -11,6 +11,11 @@ class ShrubBaseParser {
     errors.addAll(lexer.errors);
   }
 
+  SimpleIdentifierContext nextSimpleIdentifier() {
+    var id = nextToken(TokenType.id);
+    return id == null ? null : new SimpleIdentifierContext(id.span);
+  }
+
   List<Token> computeRest() {
     if (done) return [];
     //print(_index);
@@ -18,8 +23,8 @@ class ShrubBaseParser {
     return lexer.tokens.skip(_index).toList();
   }
 
-  /// Joins the [tokens] into a single [SourceSpan].
-  SourceSpan spanFrom(Iterable<Token> tokens) {
+  /// Joins the [tokens] into a single [FileSpan].
+  FileSpan spanFrom(Iterable<Token> tokens) {
     return tokens.map((t) => t.span).reduce((a, b) => a.expand(b));
   }
 

@@ -6,7 +6,7 @@ abstract class IdentifierContext extends ExpressionContext {
 }
 
 class SimpleIdentifierContext extends IdentifierContext {
-  final SourceSpan span;
+  final FileSpan span;
 
   SimpleIdentifierContext(this.span);
 

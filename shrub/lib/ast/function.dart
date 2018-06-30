@@ -3,11 +3,11 @@ import 'package:source_span/source_span.dart';
 
 class FunctionContext {
   final List<ParameterContext> parameters = [];
-  final SourceSpan span;
-  final IdentifierContext name;
+  final FileSpan span;
+  final IdentifierContext identifier;
   final ExpressionContext expression;
 
-  FunctionContext(this.span, this.name, this.expression);
+  FunctionContext(this.span, this.identifier, this.expression);
 }
 
 class ParameterContext {
@@ -15,5 +15,5 @@ class ParameterContext {
 
   ParameterContext(this.identifier);
 
-  SourceSpan get span => identifier.span;
+  FileSpan get span => identifier.span;
 }

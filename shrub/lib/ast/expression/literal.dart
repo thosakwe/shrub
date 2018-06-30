@@ -8,7 +8,7 @@ class IntegerLiteralContext extends ExpressionContext<int> {
   IntegerLiteralContext(this.token);
 
   @override
-  SourceSpan get span => token.span;
+  FileSpan get span => token.span;
 
   @override
   bool get hasConstantValue => true;
