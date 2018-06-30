@@ -7,7 +7,5 @@ class Analyzer {
 
   Analyzer(this.moduleSystem);
 
-  Future analyze(AnalysisContext context) async {
-
-  }
+  Future analyze(AnalysisContext context) async {}
 }

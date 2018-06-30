@@ -6,8 +6,7 @@ class ShrubFunction extends ShrubObject {
   String name = '(anonymous function)';
   ShrubType returnType;
 
-  ShrubFunction(Module package, FileSpan span)
-      : super(package, null, span);
+  ShrubFunction(Module package, FileSpan span) : super(package, null, span);
 
   @override
   FunctionType get type => new FunctionType(package, name)

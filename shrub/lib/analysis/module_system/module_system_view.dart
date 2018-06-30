@@ -9,10 +9,8 @@ abstract class ModuleSystemView {
     var pkg = findModule(parts[0], version);
 
     for (var part in parts.skip(1)) {
-      pkg = pkg.children.putIfAbsent(
-          part,
-          () => new Module(
-              pkg, pkg.directory.child(part), part, pkg.version));
+      pkg = pkg.children.putIfAbsent(part,
+          () => new Module(pkg, pkg.directory.child(part), part, pkg.version));
     }
 
     return pkg;
