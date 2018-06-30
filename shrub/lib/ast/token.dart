@@ -10,6 +10,7 @@ class Token {
 
 enum TokenType {
   // Symbols
+  arrow,
   comma,
   lBracket,
   rBracket,
@@ -23,6 +24,7 @@ enum TokenType {
   spread2,
   spread3,
   increment,
+  decrement,
   not,
   tilde,
 
@@ -49,13 +51,16 @@ enum TokenType {
   as_,
   fn,
   import_,
-  match_,
+  match,
   with_,
 
   // Data
-  binary,
-  hex,
-  octal,
-  number,
+  radix2,
+  radix8,
+  radix10,
+  pow10,
+  radix16,
+  float_,
+  string,
   id,
 }

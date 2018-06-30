@@ -6,7 +6,7 @@ class Lexer {
   final List<ShrubException> errors = <ShrubException>[];
   final Queue<LexerMode> modes = new Queue<LexerMode>();
   final List<Token> tokens = <Token>[];
-  final StringScanner scanner;
+  final SpanScanner scanner;
 
   CodeLexer _codeLexer;
 
@@ -17,15 +17,16 @@ class Lexer {
   CodeLexer get codeLexer => _codeLexer ??= new CodeLexer(this);
 
   void scan() {
-    if (modes.isEmpty) return;
-    var mode = modes.removeFirst();
+    while (modes.isNotEmpty) {
+      var mode = modes.removeFirst();
 
-    switch (mode.type) {
-      case LexerModeType.code:
-        codeLexer.scan();
-        break;
-      default:
-        throw new UnsupportedError(mode.type.toString());
+      switch (mode.type) {
+        case LexerModeType.code:
+          codeLexer.scan();
+          break;
+        default:
+          throw new UnsupportedError(mode.type.toString());
+      }
     }
   }
 }
