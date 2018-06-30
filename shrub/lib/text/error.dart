@@ -3,7 +3,7 @@ import 'package:source_span/source_span.dart';
 
 class ShrubException implements Exception {
   final ShrubExceptionSeverity severity;
-  final FileSpan span;
+  final SourceSpan span;
   final String message;
 
   static String severityToString(ShrubExceptionSeverity severity) {

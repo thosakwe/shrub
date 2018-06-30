@@ -3,7 +3,8 @@ import 'package:source_span/source_span.dart';
 
 class CompilationUnitContext {
   final List<ImportDirectiveContext> imports = [];
-  final FileSpan span;
+  final List<FunctionContext> functions = [];
+  final SourceSpan span;
 
   CompilationUnitContext(this.span);
 }
