@@ -2,26 +2,26 @@ import 'dart:collection';
 import 'package:shrub/shrub.dart';
 import 'package:string_scanner/string_scanner.dart';
 
-class Lexer {
+class ShrubLexer {
   final List<ShrubException> errors = <ShrubException>[];
-  final Queue<LexerMode> modes = new Queue<LexerMode>();
+  final Queue<ShrubLexerMode> modes = new Queue<ShrubLexerMode>();
   final List<Token> tokens = <Token>[];
   final SpanScanner scanner;
 
-  CodeLexer _codeLexer;
+  ShrubCodeLexer _codeLexer;
 
-  Lexer(this.scanner) {
-    modes.addFirst(new LexerMode(LexerModeType.code));
+  ShrubLexer(this.scanner) {
+    modes.addFirst(new ShrubLexerMode(ShrubLexerModeType.code));
   }
 
-  CodeLexer get codeLexer => _codeLexer ??= new CodeLexer(this);
+  ShrubCodeLexer get codeLexer => _codeLexer ??= new ShrubCodeLexer(this);
 
   void scan() {
     while (modes.isNotEmpty) {
       var mode = modes.removeFirst();
 
       switch (mode.type) {
-        case LexerModeType.code:
+        case ShrubLexerModeType.code:
           codeLexer.scan();
           break;
         default:

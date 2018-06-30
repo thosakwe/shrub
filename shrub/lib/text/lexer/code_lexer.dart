@@ -7,10 +7,10 @@ final RegExp doubleQuotedString = new RegExp(
 final RegExp singleQuotedString = new RegExp(
     r"'((\\(['\\/bfnrt]|(u[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F])))|([^'\\]))*'");
 
-class CodeLexer {
-  final Lexer lexer;
+class ShrubCodeLexer {
+  final ShrubLexer lexer;
 
-  CodeLexer(this.lexer);
+  ShrubCodeLexer(this.lexer);
 
   static final RegExp _whitespace = new RegExp(r'[ \n\r\t]+');
 
