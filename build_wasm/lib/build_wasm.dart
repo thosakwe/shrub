@@ -29,15 +29,13 @@ class _WasmBuilder implements Builder {
     var process = await Process.start(executable, arguments);
     if (onStart != null) await onStart(process);
     var exec = (executable + ' ' + arguments.join(' ')).trim();
-    process.stderr
-        .transform(utf8.decoder)
-        .transform(LineSplitter())
-        .listen(log.severe);
     var code = await process.exitCode;
 
     if (code != 0) {
-      process.stdout.drain();
-      throw '`$exec` failed with exit code $code.';
+      var s = await process.stderr.transform(utf8.decoder).join();
+      await process.stdout.drain();
+
+      throw s.isNotEmpty ? s : '`$exec` failed with exit code $code.';
     }
 
     return process.stdout;
@@ -48,29 +46,13 @@ class _WasmBuilder implements Builder {
     var wat2wasm = builderOptions.config['wat2wasm']?.toString() ?? 'wat2wasm';
     var inputId = buildStep.inputId;
     var outputId = inputId.changeExtension('.wasm');
-
-    if (Platform.isWindows) {
-      var ss = await buildStep.fetchResource(_scratchSpace);
-      var inputFile = ss.fileFor(inputId);
-      var outputFile = ss.fileFor(outputId);
-      await ss.ensureAssets([inputId], buildStep);
-      var output = await expectExitCode0(
-          wat2wasm, ['-o', outputFile.absolute.path, inputFile.absolute.path]);
-      await output.drain();
-      await ss.copyOutput(outputId, buildStep);
-    } else {
-      var output = await expectExitCode0(
-          wat2wasm, ['-o', '/dev/stdout', '/dev/stdin'], (process) async {
-        var bytes = await buildStep.readAsBytes(inputId);
-        process.stdin.add(bytes);
-        await process.stdin.flush();
-        process.stdin.close();
-      });
-
-      var bytes = await output
-          .fold<BytesBuilder>(BytesBuilder(), (bb, buf) => bb..add(buf))
-          .then((bb) => bb.takeBytes());
-      buildStep.writeAsBytes(outputId, bytes);
-    }
+    var ss = await buildStep.fetchResource(_scratchSpace);
+    var inputFile = ss.fileFor(inputId);
+    var outputFile = ss.fileFor(outputId);
+    await ss.ensureAssets([inputId], buildStep);
+    var output = await expectExitCode0(
+        wat2wasm, ['-o', outputFile.absolute.path, inputFile.absolute.path]);
+    await output.drain();
+    await ss.copyOutput(outputId, buildStep);
   }
 }
