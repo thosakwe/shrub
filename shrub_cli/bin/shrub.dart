@@ -24,8 +24,12 @@ main() async {
         ..writeln(red.wrap(error.span.highlight()));
     }
   } else {
-    var compiler = new JSCompiler(result.context.module);
-    var program = compiler.compile();
-    print(program);
+    var jsCompiler = new JSCompiler(result.context.module);
+    var js = jsCompiler.compile();
+    print(js);
+
+    var wasmCompiler = new WasmCompiler(result.context.module);
+    var wasm = wasmCompiler.compile();
+    print(wasm);
   }
 }
