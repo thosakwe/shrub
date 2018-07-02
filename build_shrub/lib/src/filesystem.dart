@@ -4,7 +4,7 @@ import 'package:glob/glob.dart';
 import 'package:path/path.dart' as p;
 import 'package:shrub/shrub.dart';
 
-class ShrubAssetFilesystem extends ShrubFilesystem {
+class ShrubAssetFilesystem extends ShrubFileSystem {
   final String package;
   final AssetReader reader;
   final AssetWriter writer;
@@ -14,6 +14,10 @@ class ShrubAssetFilesystem extends ShrubFilesystem {
 
   factory ShrubAssetFilesystem.forBuildStep(BuildStep buildStep) =>
       new ShrubAssetFilesystem(buildStep.inputId.package, buildStep, buildStep);
+
+  // TODO: A better way to do this?
+  @override
+  ShrubDirectory get root => directory('');
 
   @override
   p.Context get context => _context ??= new p.Context(current: '$package|');

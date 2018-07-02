@@ -15,4 +15,10 @@ abstract class ModuleSystemView {
 
     return pkg;
   }
+
+  ShrubType findCoreType(String name) {
+    return findQualifiedModule('Core', null)
+        .types
+        .firstWhere((m) => m.name == name);
+  }
 }

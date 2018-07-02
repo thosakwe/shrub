@@ -5,10 +5,12 @@ import 'package:shrub/shrub.dart';
 /// It can resolve internal packages and installed packages.
 class ModuleSystem extends ModuleSystemView {
   final Map<String, List<Module>> packageCache = {};
-  final ShrubFilesystem filesystem;
+  final ShrubFileSystem fileSystem;
   final ShrubDirectory globalCacheDirectory;
 
-  ModuleSystem(this.filesystem, this.globalCacheDirectory);
+  ModuleSystem(this.fileSystem, this.globalCacheDirectory) {
+    packageCache['Core'] = [CoreModule()];
+  }
 
   @override
   Module findModule(String name, String version) {
@@ -19,7 +21,7 @@ class ModuleSystem extends ModuleSystemView {
     if (matching != null) return matching;
 
     var dir =
-        globalCacheDirectory.child(filesystem.context.join(name, version));
+        globalCacheDirectory.child(fileSystem.context.join(name, version));
     var pkg = new Module(null, dir, name, version);
     list.add(pkg);
     return pkg;

@@ -9,7 +9,7 @@ class ShrubFunction extends ShrubObject {
   ShrubFunction(Module package, FileSpan span) : super(package, null, span);
 
   @override
-  FunctionType get type => new FunctionType(package, name)
+  FunctionType get type => new FunctionType(module, name)
     ..parameters.addAll(parameters.map((p) => p.type))
     ..returnType = returnType;
 }

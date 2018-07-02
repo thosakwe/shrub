@@ -15,6 +15,9 @@
       <excludeFolder url="file://$MODULE_DIR$/shrub/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/shrub/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/shrub/build" />
+      <excludeFolder url="file://$MODULE_DIR$/shrub_cli/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/shrub_cli/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/shrub_cli/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
