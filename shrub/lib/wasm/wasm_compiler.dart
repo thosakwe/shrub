@@ -4,6 +4,7 @@ import 'package:symbol_table/symbol_table.dart';
 
 // TODO: Support errors...?
 class WasmCompiler {
+  final List<ShrubException> errors = [];
   final Module module;
 
   WasmCompiler(this.module);
@@ -20,6 +21,7 @@ class WasmCompiler {
 
       if (value is ShrubFunction) {
         var fn = compileFunctionDeclaration(value);
+        if (fn == null) continue;
         fn.copyInto(buf);
 
         if (symbol.visibility == Visibility.public) {
@@ -44,13 +46,22 @@ class WasmCompiler {
 
     for (var param in ctx.parameters) {
       if (param.type is UnknownType) {
+        errors.add(new ShrubException(
+            ShrubExceptionSeverity.warning,
+            param.span,
+            'Could not infer the type of parameter "${param.name}".'));
         continue;
-        // TODO: Log this, say skipping unused param
       }
 
       var type = compileType(param.type);
       buf.write(' (param \$${param.name} $type)');
       buf.lastLine.sourceMappings[param.span] = buf.lastLine.span;
+    }
+
+    if (ctx.returnType is UnknownType) {
+      errors.add(new ShrubException(ShrubExceptionSeverity.warning, ctx.span,
+          'Could not infer the return type of function "${ctx.name}".'));
+      return null;
     }
 
     var returnType = compileType(ctx.returnType);
@@ -59,13 +70,19 @@ class WasmCompiler {
       ..indent();
 
     var returnValue = compileExpression(ctx.declaration.expression);
-    if (returnValue.lines.length == 1) {
-      buf.write(returnValue.lines[0].text);
-    } else {
-      returnValue.copyInto(buf);
+
+    if (buf.isNotEmpty) {
+      if (returnValue.lines.length == 1) {
+        buf.write(returnValue.lines[0].text);
+      } else {
+        returnValue.copyInto(buf);
+      }
     }
 
-    return buf..write(')');
+    return buf
+      ..writeln()
+      ..outdent()
+      ..write(')');
   }
 
   CodeBuffer compileExpression(ExpressionContext ctx) {
@@ -75,6 +92,17 @@ class WasmCompiler {
 
     if (ctx is SimpleIdentifierContext) {
       return new CodeBuffer()..writeln('get_local \$${ctx.name}');
+    }
+
+    if (ctx is BinaryExpressionContext) {
+      // TODO: Handle booleans?
+      var targetType = compileType(ctx.resolved.type);
+      var op = compileBinaryOperator(ctx.operator);
+      var buf = new CodeBuffer();
+      compileExpression(ctx.right).copyInto(buf);
+      compileExpression(ctx.left).copyInto(buf);
+      buf.write('$targetType.$op');
+      return buf;
     }
 
     throw new UnimplementedError(
@@ -88,5 +116,21 @@ class WasmCompiler {
 
     throw new UnimplementedError(
         'Cannot yet compile ${ctx.runtimeType} to WASM!!!');
+  }
+
+  String compileBinaryOperator(Token token) {
+    switch (token.type) {
+      case TokenType.times:
+        return 'mul';
+      case TokenType.divide:
+        return 'div';
+      case TokenType.plus:
+        return 'add';
+      case TokenType.minus:
+        return 'sub';
+      default:
+        throw new UnimplementedError(
+            'Cannot yet compile operator "${token.span.text}" to WASM!!!');
+    }
   }
 }

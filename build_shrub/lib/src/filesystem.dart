@@ -44,6 +44,9 @@ class ShrubAssetDirectory extends ShrubDirectory {
       .then((empty) => !empty);
 
   @override
+  Stream<ShrubFileChange> get changes => new Stream<ShrubFileChange>.empty();
+
+  @override
   ShrubDirectory child(String dirname) {
     return new ShrubAssetDirectory(filesystem, p.join(path, dirname));
   }

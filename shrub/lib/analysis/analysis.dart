@@ -1,5 +1,6 @@
 export 'analyzer/analyzer.dart';
 export 'core/core.dart';
+export 'binary.dart';
 export 'module_system/module_system.dart';
 export 'function.dart';
 export 'object.dart';

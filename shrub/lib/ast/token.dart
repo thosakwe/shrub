@@ -33,6 +33,7 @@ enum TokenType {
   exponent,
   times,
   divide,
+  modulo,
   plus,
   minus,
 

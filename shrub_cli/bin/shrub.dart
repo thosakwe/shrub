@@ -19,20 +19,38 @@ main() async {
       module, new LocalModuleSystemView(moduleSystem, module));
   var analyzer = new Analyzer(moduleSystem);
   var result = await analyzer.analyze(context);
+  var wasmCompiler = new WasmCompiler(result.context.module);
+  var wasm = wasmCompiler.compile();
+  result.errors.addAll(wasmCompiler.errors);
+
+  for (var error in result.foldErrors()) {
+    AnsiCode color;
+
+    switch (error.severity) {
+      case ShrubExceptionSeverity.error:
+        color = red;
+        break;
+      case ShrubExceptionSeverity.warning:
+        color = yellow;
+        break;
+      case ShrubExceptionSeverity.hint:
+        color = blue;
+        break;
+      case ShrubExceptionSeverity.info:
+        color = lightGray;
+        break;
+    }
+
+    stderr
+      ..writeln(color.wrap(error.toString()))
+      ..writeln(color.wrap(error.span.highlight()));
+  }
 
   if (result.type == AnalysisResultType.failure) {
-    for (var error in result.foldErrors()) {
-      stderr
-        ..writeln(red.wrap(error.toString()))
-        ..writeln(red.wrap(error.span.highlight()));
-    }
+    var length = result.criticalErrors.length;
+    stderr.writeln(
+        red.wrap('Compilation failed with $length critical error(s).'));
   } else {
-//    var jsCompiler = new JSCompiler(result.context.module);
-//    var js = jsCompiler.compile();
-//    print(js);
-
-    var wasmCompiler = new WasmCompiler(result.context.module);
-    var wasm = wasmCompiler.compile();
     print(wasm);
     var wasmFile = new File(p.setExtension(module.name, '.wasm'));
     var wat2wasm =

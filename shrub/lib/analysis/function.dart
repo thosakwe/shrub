@@ -29,7 +29,9 @@ class ShrubFunctionParameter extends ShrubObject {
   ShrubType get type => _type;
 
   void set type(ShrubType value) {
-    if (_type is UnknownType) {
+    if (value == null) {
+      return;
+    } else if (_type is UnknownType) {
       _type = value;
     } else if (_type is UnionType) {
       (_type as UnionType).alternatives.add(value);

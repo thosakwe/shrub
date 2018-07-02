@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:file/file.dart';
-import 'package:path/src/context.dart';
+import 'package:path/path.dart';
 import 'package:shrub/shrub.dart';
+import 'package:watcher/watcher.dart';
 
 class ShrubBackedFileSystem implements ShrubFileSystem {
   final FileSystem fileSystem;
@@ -32,6 +33,24 @@ class ShrubBackedDirectory implements ShrubDirectory {
 
   @override
   Future<bool> get exists => directory.exists();
+
+  @override
+  Stream<ShrubFileChange> get changes {
+    return directory
+        .watch(events: FileSystemEvent.ALL)
+        .where((e) => !e.isDirectory)
+        .map((e) {
+      var file = new ShrubBackedFile(directory.fileSystem.file(e.path));
+      switch (e.type) {
+        case FileSystemEvent.CREATE:
+        case FileSystemEvent.MODIFY:
+        case FileSystemEvent.MOVE:
+          return new ShrubFileChange(false, file);
+        case FileSystemEvent.DELETE:
+          return new ShrubFileChange(true, file);
+      }
+    });
+  }
 
   @override
   ShrubFile findFile(String basename) =>

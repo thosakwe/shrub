@@ -2,10 +2,20 @@ import 'package:shrub/shrub.dart';
 
 class AnalysisResult {
   final AnalysisContext context;
-  final AnalysisResultType type;
-  final List<ShrubException> errors;
+  final List<ShrubException> errors = [];
 
-  AnalysisResult(this.context, this.type, this.errors);
+  AnalysisResult(this.context, [Iterable<ShrubException> errors = const []]) {
+    this.errors.addAll(context.errors);
+    this.errors.addAll(errors ?? <ShrubException>[]);
+  }
+
+  AnalysisResultType get type => criticalErrors.isEmpty
+      ? AnalysisResultType.success
+      : AnalysisResultType.failure;
+
+  List<ShrubException> get criticalErrors => foldErrors()
+      .where((e) => e.severity == ShrubExceptionSeverity.error)
+      .toList();
 
   List<ShrubException> foldErrors() {
     var out = <ShrubException>[];

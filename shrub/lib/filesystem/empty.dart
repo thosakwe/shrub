@@ -27,6 +27,9 @@ class ShrubEmptyDirectory implements ShrubDirectory {
   Future<bool> get exists async => false;
 
   @override
+  Stream<ShrubFileChange> get changes => new Stream<ShrubFileChange>.empty();
+
+  @override
   ShrubFile findFile(String basename) => const ShrubEmptyFile();
 
   @override

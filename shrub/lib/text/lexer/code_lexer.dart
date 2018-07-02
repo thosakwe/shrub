@@ -39,6 +39,7 @@ class CodeLexer {
     '**': TokenType.exponent,
     '*': TokenType.times,
     '/': TokenType.divide,
+    '%': TokenType.modulo,
     '+': TokenType.plus,
     '-': TokenType.minus,
 

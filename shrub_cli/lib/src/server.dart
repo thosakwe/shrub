@@ -55,9 +55,21 @@ window.addEventListener('load', function () {
 
         response
           ..headers.contentType = ContentType.html
+          ..headers
+              .set('last-modified', HttpDate.format(await file.lastModified()))
           ..write(doc.outerHtml)
           ..close();
       } else {
+        if (request.headers.ifModifiedSince != null) {
+          var mod = await file.lastModified();
+          if (!mod.isAfter(request.headers.ifModifiedSince)) {
+            response
+              ..statusCode = 304
+              ..close();
+            return null;
+          }
+        }
+
         if (ext == '.wasm') {
           response.headers.contentType = new ContentType('application', 'wasm');
         } else {
@@ -66,7 +78,9 @@ window.addEventListener('load', function () {
                   'application/octet-stream';
         }
 
-        file.openRead().pipe(response);
+        file.openRead().pipe(response
+          ..headers.set(
+              'last-modified', HttpDate.format(await file.lastModified())));
       }
     }
   }

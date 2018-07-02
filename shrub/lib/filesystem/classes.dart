@@ -15,6 +15,8 @@ abstract class ShrubDirectory {
 
   Future<bool> get exists;
 
+  Stream<ShrubFileChange> get changes;
+
   ShrubDirectory child(String dirname);
 
   Stream<ShrubFile> listShrubFiles();
@@ -38,3 +40,11 @@ abstract class ShrubFile {
 
   Future write(String contents);
 }
+
+class ShrubFileChange {
+  final bool isDeleted;
+  final ShrubFile file;
+
+  ShrubFileChange(this.isDeleted, this.file);
+}
+
