@@ -1,5 +1,5 @@
 import 'package:shrub/shrub.dart';
 
-/*class ShrubAnyType extends ShrubType {
-  ShrubAnyType(ShrubPackage package) : super(package, 'Any');
-}*/
+class UnknownType extends ShrubType {
+  UnknownType(Module module) : super(module, 'Unknown');
+}

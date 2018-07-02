@@ -14,6 +14,7 @@ class WasmCompiler {
       ..writeln('(module')
       ..indent();
 
+    var exports = <String>[];
     for (var symbol in module.scope.allVariables) {
       var value = symbol.value;
 
@@ -22,10 +23,12 @@ class WasmCompiler {
         fn.copyInto(buf);
 
         if (symbol.visibility == Visibility.public) {
-          buf.writeln('(export "${value.name}" (func \$${value.name}))');
+          exports.add('(export "${value.name}" (func \$${value.name}))');
         }
       }
     }
+
+    exports.forEach(buf.writeln);
 
     // TODO: Source maps in WASM...?
 
@@ -40,7 +43,13 @@ class WasmCompiler {
     buf.lastLine.sourceMappings[ctx.span] = buf.lastLine.span;
 
     for (var param in ctx.parameters) {
-      buf.write(' (param ${param.name})');
+      if (param.type is UnknownType) {
+        continue;
+        // TODO: Log this, say skipping unused param
+      }
+
+      var type = compileType(param.type);
+      buf.write(' (param \$${param.name} $type)');
       buf.lastLine.sourceMappings[param.span] = buf.lastLine.span;
     }
 
@@ -62,6 +71,10 @@ class WasmCompiler {
   CodeBuffer compileExpression(ExpressionContext ctx) {
     if (ctx is IntegerLiteralContext) {
       return new CodeBuffer()..write('i32.const ${ctx.constantValue}');
+    }
+
+    if (ctx is SimpleIdentifierContext) {
+      return new CodeBuffer()..writeln('get_local \$${ctx.name}');
     }
 
     throw new UnimplementedError(

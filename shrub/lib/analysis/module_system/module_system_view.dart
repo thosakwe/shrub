@@ -16,6 +16,8 @@ abstract class ModuleSystemView {
     return pkg;
   }
 
+  CoreModule get coreModule => findQualifiedModule('Core', null) as CoreModule;
+
   ShrubType findCoreType(String name) {
     return findQualifiedModule('Core', null)
         .types

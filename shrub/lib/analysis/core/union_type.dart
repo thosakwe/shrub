@@ -3,7 +3,10 @@ import 'package:shrub/shrub.dart';
 class UnionType extends ShrubType {
   final List<ShrubType> alternatives = [];
 
-  UnionType(Module package, String name) : super(package, name);
+  UnionType(Module package) : super(package, null);
+
+  @override
+  String get name => alternatives.map((t) => name).join(' | ');
 
   @override
   String get qualifiedName {

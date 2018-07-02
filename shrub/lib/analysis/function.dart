@@ -16,10 +16,25 @@ class ShrubFunction extends ShrubObject {
     ..returnType = returnType;
 }
 
-class ShrubFunctionParameter {
+class ShrubFunctionParameter extends ShrubObject {
   final String name;
   final FileSpan span;
-  ShrubType type;
 
-  ShrubFunctionParameter(this.name, this.span);
+  ShrubType _type;
+
+  ShrubFunctionParameter(Module module, this.name, this._type, this.span)
+      : super(module, null, span);
+
+  @override
+  ShrubType get type => _type;
+
+  void set type(ShrubType value) {
+    if (_type is UnknownType) {
+      _type = value;
+    } else if (_type is UnionType) {
+      (_type as UnionType).alternatives.add(value);
+    } else {
+      _type = new UnionType(module)..alternatives.addAll([_type, value]);
+    }
+  }
 }

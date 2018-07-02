@@ -33,9 +33,16 @@ class Analyzer {
 
   Future<ShrubFunction> analyzeFunction(
       FunctionContext function, AnalysisContext context) async {
-    // TODO: Analyze parameters
     var fn = new ShrubFunction(context.module, function)
       ..name = function.identifier.name;
+
+    for (var param in function.parameters) {
+      var p = new ShrubFunctionParameter(context.module, param.identifier.name,
+          context.moduleSystemView.coreModule.unknownType, param.span);
+      fn.parameters.add(p);
+      function.scope.create(p.name, value: p, constant: true);
+    }
+
     await analyzeExpression(function.expression, function.scope, context);
     fn.returnType = function.expression.resolved.type;
     return fn;
@@ -49,7 +56,7 @@ class Analyzer {
 
     if (expression is IntegerLiteralContext) {
       expression.resolved = new ShrubObject(context.module,
-          context.moduleSystemView.findCoreType('Integer'), expression.span);
+          context.moduleSystemView.coreModule.integerType, expression.span);
       return scope;
     }
 
