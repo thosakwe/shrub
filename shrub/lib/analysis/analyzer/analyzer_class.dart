@@ -22,7 +22,8 @@ class Analyzer {
       } else {
         for (var function in unit.functions) {
           function.scope ??= context.module.scope.createChild();
-          await analyzeFunction(function, context);
+          var fn = await analyzeFunction(function, context);
+          context.module.scope.create(fn.name, value: fn, constant: true);
         }
       }
     }
@@ -30,10 +31,14 @@ class Analyzer {
     return new AnalysisResult(context, AnalysisResultType.success, []);
   }
 
-  Future analyzeFunction(
+  Future<ShrubFunction> analyzeFunction(
       FunctionContext function, AnalysisContext context) async {
     // TODO: Analyze parameters
+    var fn = new ShrubFunction(context.module, function)
+      ..name = function.identifier.name;
     await analyzeExpression(function.expression, function.scope, context);
+    fn.returnType = function.expression.resolved.type;
+    return fn;
   }
 
   Future<SymbolTable<ShrubObject>> analyzeExpression(

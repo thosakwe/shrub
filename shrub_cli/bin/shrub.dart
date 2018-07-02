@@ -24,6 +24,8 @@ main() async {
         ..writeln(red.wrap(error.span.highlight()));
     }
   } else {
-
+    var compiler = new JSCompiler(result.context.module);
+    var program = compiler.compile();
+    print(program);
   }
 }

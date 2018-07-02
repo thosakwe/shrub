@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.1"
+  code_buffer:
+    dependency: transitive
+    description:
+      name: code_buffer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   collection:
     dependency: transitive
     description:
@@ -57,6 +64,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2+1"
+  js_ast:
+    dependency: transitive
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: e0602d5f72e106994707e409c867c37ba36f9ae8
+      url: "https://github.com/thosakwe/js_ast.git"
+    source: git
+    version: "0.0.0"
   meta:
     dependency: transitive
     description:
@@ -78,6 +94,13 @@ packages:
       relative: true
     source: path
     version: "0.0.0"
+  source_maps:
+    dependency: transitive
+    description:
+      name: source_maps
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.6"
   source_span:
     dependency: transitive
     description:

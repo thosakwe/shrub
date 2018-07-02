@@ -3,10 +3,12 @@ import 'package:source_span/src/file.dart';
 
 class ShrubFunction extends ShrubObject {
   final List<ShrubFunctionParameter> parameters = [];
+  final FunctionContext declaration;
   String name = '(anonymous function)';
   ShrubType returnType;
 
-  ShrubFunction(Module package, FileSpan span) : super(package, null, span);
+  ShrubFunction(Module module, this.declaration)
+      : super(module, null, declaration.span);
 
   @override
   FunctionType get type => new FunctionType(module, name)
