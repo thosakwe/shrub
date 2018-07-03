@@ -10,15 +10,16 @@ class Analyzer {
 
   // TODO: Support for resolving deltas, etc.
   Future<AnalysisResult> analyze(AnalysisContext context) async {
+    var errors = <ShrubException>[];
+
     await for (var file in context.module.directory.listShrubFiles()) {
       var scanner = new SpanScanner(await file.read(), sourceUrl: file.path);
       var lexer = new Lexer(scanner)..scan();
       var parser = new Parser(lexer);
       var unit = parser.parseCompilationUnit();
+      errors.addAll(parser.errors);
 
-      if (unit == null) {
-        return new AnalysisResult(context, parser.errors);
-      } else {
+      if (unit != null) {
         for (var function in unit.functions) {
           function.scope ??= context.module.scope.createChild();
           var fn = await analyzeFunction(function, context);
@@ -27,7 +28,7 @@ class Analyzer {
       }
     }
 
-    return new AnalysisResult(context);
+    return new AnalysisResult(context, errors);
   }
 
   Future<ShrubFunction> analyzeFunction(
@@ -55,8 +56,19 @@ class Analyzer {
     if (expression.resolved != null) return scope;
 
     if (expression is IntegerLiteralContext) {
-      expression.resolved = new ShrubObject(context.module,
-          context.moduleSystemView.coreModule.integerType, expression.span);
+      var constantValue = expression.getConstantValue(context.errors.add);
+
+      if (constantValue != null) {
+        expression.resolved = new ShrubObject(
+            context.module,
+            context.moduleSystemView.coreModule.chooseIntegerType(
+              constantValue,
+              expression.span,
+              context.errors.add,
+            ),
+            expression.span);
+      }
+
       return scope;
     }
 
@@ -150,8 +162,15 @@ class Analyzer {
         return scope;
       }
 
-      expression.resolved = new Binary(context.module, left, expression,
-          resolvedLeft, expression.operator, resolvedRight);
+      expression.resolved = new Binary(
+        context.module,
+        context.moduleSystemView.coreModule.chooseSmallestIntegerType(
+            left as IntegerType, right as IntegerType),
+        expression,
+        resolvedLeft,
+        expression.operator,
+        resolvedRight,
+      );
 
       return scope;
     }

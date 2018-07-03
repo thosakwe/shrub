@@ -1,3 +1,3 @@
 fn line [x] => 3 * x + 5
 
-fn main => 24
+fn main => 6

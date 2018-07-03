@@ -87,7 +87,9 @@ class WasmCompiler {
 
   CodeBuffer compileExpression(ExpressionContext ctx) {
     if (ctx is IntegerLiteralContext) {
-      return new CodeBuffer()..write('i32.const ${ctx.constantValue}');
+      var constantValue = ctx.getConstantValue(errors.add);
+      return constantValue == null ? null : new CodeBuffer()
+        ..write('i32.const $constantValue');
     }
 
     if (ctx is SimpleIdentifierContext) {

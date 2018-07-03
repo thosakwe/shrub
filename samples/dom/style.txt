@@ -1,7 +1,9 @@
-import DOM
+with DOM
 
-fn main => DOM::style (
-    DOM::querySelector('#red-button'),
-    'background-color',
-    'red'
+fn redButton => applyStyle (
+    querySelector('#red-button'),
+
+    style(
+        backgroundColor = 'red'
+    )
 )

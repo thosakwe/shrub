@@ -38,6 +38,12 @@ class Parser extends BaseParser {
       }
     }
 
+    var rest = computeRest();
+    if (rest.isNotEmpty) {
+      errors.add(new ShrubException(
+          ShrubExceptionSeverity.warning, spanFrom(rest), 'Unexpected text.'));
+    }
+
     if (span == null) return null;
     return new CompilationUnitContext(span)..functions.addAll(functions);
   }

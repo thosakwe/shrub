@@ -2,6 +2,7 @@ import 'package:code_buffer/code_buffer.dart';
 import 'package:shrub/shrub.dart';
 import 'package:source_maps/source_maps.dart';
 
+/*
 // TODO: Support errors...?
 class JSCompiler {
   final SourceMapBuilder sourceMapBuilder = new SourceMapBuilder();
@@ -55,6 +56,7 @@ class JSCompiler {
 
   CodeBuffer compileExpression(ExpressionContext ctx) {
     if (ctx is IntegerLiteralContext) {
+      var constantValue = ctx.getConstantValue(errors.add);
       return new CodeBuffer()..writeln(ctx.constantValue);
     }
 
@@ -62,3 +64,4 @@ class JSCompiler {
         'Cannot yet compile ${ctx.runtimeType} to JS!!!');
   }
 }
+*/

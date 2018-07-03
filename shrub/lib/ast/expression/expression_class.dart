@@ -6,8 +6,11 @@ abstract class ExpressionContext<T> {
 
   bool get hasConstantValue => false;
 
-  T get constantValue => throw new UnsupportedError(
-      'A(n) `$runtimeType` is not a constant expression.');
+  T getConstantValue(void Function(ShrubException) onError) {
+    onError(new ShrubException(ShrubExceptionSeverity.error, span,
+        'A(n) `$runtimeType` is not a constant expression.'));
+    return null;
+  }
 
   ShrubObject resolved;
 }
