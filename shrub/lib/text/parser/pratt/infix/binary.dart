@@ -7,7 +7,7 @@ class BinaryExpressionParselet implements InfixParselet {
 
   @override
   ExpressionContext parse(Parser parser, ExpressionContext left, Token token) {
-    var right = parser.expressionParser.parseExpression();
+    var right = parser.expressionParser.parse();
 
     if (right == null) {
       parser.errors.add(new ShrubException(ShrubExceptionSeverity.error,

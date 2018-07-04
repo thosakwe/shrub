@@ -8,7 +8,7 @@ class ExpressionParser {
   int getPrecedence() =>
       InfixParselet.all[parser.peek()?.type]?.precedence ?? 0;
 
-  ExpressionContext parseExpression([int precedence = 0]) {
+  ExpressionContext parse([int precedence = 0]) {
     var token = parser.peek();
     if (token == null) return null;
     var prefixParser = PrefixParselet.all[token.type];

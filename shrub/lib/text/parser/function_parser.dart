@@ -58,7 +58,7 @@ class FunctionParser {
 
     span = span.expand(lastSpan = arrow.span);
 
-    var expression = parser.expressionParser.parseExpression();
+    var expression = parser.expressionParser.parse();
 
     if (expression == null) {
       parser.errors.add(new ShrubException(ShrubExceptionSeverity.error,
