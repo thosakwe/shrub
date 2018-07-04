@@ -162,6 +162,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0-beta+2"
+  linear_memory:
+    dependency: transitive
+    description:
+      name: linear_memory
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   logging:
     dependency: transitive
     description:
