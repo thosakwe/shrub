@@ -14,3 +14,8 @@ abstract class ExpressionContext<T> {
 
   ShrubObject resolved;
 }
+
+abstract class LiteralContext<T> extends ExpressionContext<T> {
+  @override
+  bool get hasConstantValue => true;
+}

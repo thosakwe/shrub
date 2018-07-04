@@ -2,16 +2,13 @@ import 'dart:math' as math;
 import 'package:shrub/shrub.dart';
 import 'package:source_span/source_span.dart';
 
-class IntegerLiteralContext extends ExpressionContext<int> {
+class IntegerLiteralContext extends LiteralContext<int> {
   final Token token;
 
   IntegerLiteralContext(this.token);
 
   @override
   FileSpan get span => token.span;
-
-  @override
-  bool get hasConstantValue => true;
 
   @override
   int getConstantValue(void Function(ShrubException) onError) {
@@ -41,16 +38,13 @@ class IntegerLiteralContext extends ExpressionContext<int> {
   }
 }
 
-class FloatLiteralContext extends ExpressionContext<double> {
+class FloatLiteralContext extends LiteralContext<double> {
   final Token token;
 
   FloatLiteralContext(this.token);
 
   @override
   FileSpan get span => token.span;
-
-  @override
-  bool get hasConstantValue => true;
 
   @override
   double getConstantValue(Function onError) {
