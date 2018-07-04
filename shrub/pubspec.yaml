@@ -2,6 +2,7 @@ name: shrub
 dependencies:
   angel_serialize: ^2.0.0
   code_buffer: ^1.0.0
+  linear_memory: ^1.0.0
   path: ^1.0.0
   source_maps: ^0.10.5
   source_span: ^1.0.0

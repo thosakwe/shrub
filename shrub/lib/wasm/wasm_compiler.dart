@@ -1,10 +1,13 @@
 import 'package:code_buffer/code_buffer.dart';
+import 'package:linear_memory/linear_memory.dart';
 import 'package:shrub/shrub.dart';
 import 'package:symbol_table/symbol_table.dart';
 
 // TODO: Support errors...?
 class WasmCompiler {
   final List<ShrubException> errors = [];
+  final LinearMemory<ShrubObject> memory =
+      new LinearMemory<ShrubObject>(64 * 1024);
   final Module module;
 
   WasmCompiler(this.module);
