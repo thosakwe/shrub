@@ -7,6 +7,7 @@ abstract class InfixParselet<T> {
       Parser parser, ExpressionContext left, Token token);
 
   static const Map<TokenType, InfixParselet> all = const {
+    TokenType.lParen: const InvocationExpressionParselet(6),
     TokenType.exponent: const BinaryExpressionParselet(5),
     TokenType.times: const BinaryExpressionParselet(4),
     TokenType.divide: const BinaryExpressionParselet(3),
