@@ -16,3 +16,12 @@ class IntegerLiteralParser implements PrefixParselet<int> {
     return new IntegerLiteralContext(token);
   }
 }
+
+class FloatLiteralParser implements PrefixParselet<double> {
+  const FloatLiteralParser();
+
+  @override
+  ExpressionContext<double> parse(Parser parser, Token token) {
+    return new FloatLiteralContext(token);
+  }
+}

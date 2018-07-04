@@ -9,6 +9,7 @@ abstract class PrefixParselet<T> {
     TokenType.radix10: IntegerLiteralParser(),
     TokenType.radix16: IntegerLiteralParser(),
     TokenType.pow10: IntegerLiteralParser(),
+    TokenType.float_: FloatLiteralParser(),
     TokenType.id: SimpleIdentifierParser(),
   };
 }
