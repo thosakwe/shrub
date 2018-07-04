@@ -106,8 +106,18 @@ class InvocationAnalyzer {
 
       if (arg is ShrubFunctionParameter) {
         arg.type = param.type;
-      } else {
+      } else if (param.type is UnknownType) {
         param.type = arg.type;
+      } else if (!param.type.isAssignableFrom(arg.type)) {
+        context.errors.add(new ShrubException(
+            ShrubExceptionSeverity.error,
+            arg.span,
+            'Invalid argument provided for parameter "$name".',
+            'The parameter "$name" expects a value of type ' +
+                '`${param.type.qualifiedName}`, but you provided ' +
+                ' a value of type `${arg.type.qualifiedName}`. ' +
+                'These two are incompatible; therefore, this invocation is invalid.'));
+        return scope;
       }
     }
 

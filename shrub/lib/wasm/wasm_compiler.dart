@@ -63,7 +63,9 @@ class WasmCompiler {
     }
 
     if (ctx.returnType is UnknownType) {
-      errors.add(new ShrubException(ShrubExceptionSeverity.warning, ctx.span,
+      errors.add(new ShrubException(
+          ShrubExceptionSeverity.error,
+          ctx.declaration.identifier.span,
           'Could not infer the return type of function "${ctx.name}".'));
       return null;
     }
