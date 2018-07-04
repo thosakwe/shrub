@@ -88,8 +88,16 @@ class WasmCompiler {
   CodeBuffer compileExpression(ExpressionContext ctx) {
     if (ctx is IntegerLiteralContext) {
       var constantValue = ctx.getConstantValue(errors.add);
+      var size = (ctx.resolved.type as IntegerType).size;
       return constantValue == null ? null : new CodeBuffer()
-        ..write('i32.const $constantValue');
+        ..write('i$size.const $constantValue');
+    }
+
+    if (ctx is FloatLiteralContext) {
+      var constantValue = ctx.getConstantValue(errors.add);
+      var size = (ctx.resolved.type as FloatType).size;
+      return constantValue == null ? null : new CodeBuffer()
+        ..write('f$size.const $constantValue');
     }
 
     if (ctx is SimpleIdentifierContext) {

@@ -134,7 +134,7 @@ class Analyzer {
         } else {
           left = resolvedLeft.type = right;
         }
-      } else if (left is! IntegerType) {
+      } else if (left is! IntegerType && left is! FloatType) {
         context.errors.add(new ShrubException(
             ShrubExceptionSeverity.error,
             expression.left.span,
@@ -162,15 +162,27 @@ class Analyzer {
         return scope;
       }
 
-      expression.resolved = new Binary(
-        context.module,
-        context.moduleSystemView.coreModule.chooseSmallestIntegerType(
-            left as IntegerType, right as IntegerType),
-        expression,
-        resolvedLeft,
-        expression.operator,
-        resolvedRight,
-      );
+      if (left is IntegerType) {
+        expression.resolved = new Binary(
+          context.module,
+          context.moduleSystemView.coreModule
+              .chooseSmallestIntegerType(left, right as IntegerType),
+          expression,
+          resolvedLeft,
+          expression.operator,
+          resolvedRight,
+        );
+      } else if (left is FloatType) {
+        expression.resolved = new Binary(
+          context.module,
+          context.moduleSystemView.coreModule
+              .chooseSmallestFloatType(left, right as FloatType),
+          expression,
+          resolvedLeft,
+          expression.operator,
+          resolvedRight,
+        );
+      }
 
       return scope;
     }
