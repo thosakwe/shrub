@@ -1,0 +1,3 @@
+fn yep [nope] => nope + 2
+
+fn oops => yep(2)
