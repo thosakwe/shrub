@@ -6,13 +6,14 @@ class InvocationContext extends ExpressionContext {
   final ExpressionContext target;
   final List<ArgumentContext> arguments;
 
-  InvocationContext(
-      this.span, this.target, Iterable<ArgumentContext> arguments)
+  InvocationContext(this.span, this.target, Iterable<ArgumentContext> arguments)
       : this.arguments = arguments.toList();
 }
 
 abstract class ArgumentContext {
   FileSpan get span;
+
+  ExpressionContext get expression;
 }
 
 class ExpressionArgumentContext extends ArgumentContext {

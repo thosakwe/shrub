@@ -10,6 +10,8 @@ class ShrubFunction extends ShrubObject {
   ShrubFunction(Module module, this.declaration)
       : super(module, null, declaration.span);
 
+  String get qualifiedName => '${module.qualifiedName}::$name';
+
   @override
   FunctionType get type => new FunctionType(module, name)
     ..parameters.addAll(parameters.map((p) => p.type))

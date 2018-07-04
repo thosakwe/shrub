@@ -9,7 +9,7 @@ class FunctionType extends ShrubType {
   @override
   String get qualifiedName {
     var paramString =
-        '(' + parameters.map((t) => t.qualifiedName).join(', ') + ')';
+        '[' + parameters.map((t) => t.qualifiedName).join(', ') + ']';
     return paramString + ' => ' + returnType.qualifiedName;
   }
 
