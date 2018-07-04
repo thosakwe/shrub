@@ -1,6 +1,7 @@
 import 'package:code_buffer/code_buffer.dart';
 import 'package:linear_memory/linear_memory.dart';
 import 'package:shrub/shrub.dart';
+import 'package:source_span/source_span.dart';
 import 'package:symbol_table/symbol_table.dart';
 
 // TODO: Support errors...?
@@ -56,7 +57,7 @@ class WasmCompiler {
         continue;
       }
 
-      var type = compileType(param.type);
+      var type = compileType(param.type, param.span);
       buf.write(' (param \$${param.name} $type)');
       buf.lastLine.sourceMappings[param.span] = buf.lastLine.span;
     }
@@ -67,7 +68,8 @@ class WasmCompiler {
       return null;
     }
 
-    var returnType = compileType(ctx.returnType);
+    var returnType =
+        compileType(ctx.returnType, ctx.declaration.identifier.span);
     buf
       ..writeln(' (result $returnType)')
       ..indent();
@@ -108,26 +110,43 @@ class WasmCompiler {
 
     if (ctx is BinaryContext) {
       // TODO: Handle booleans?
-      var targetType = compileType(ctx.resolved.type);
-      var op = compileBinaryOperator(ctx.operator);
-      var buf = new CodeBuffer();
-      compileExpression(ctx.right).copyInto(buf);
-      compileExpression(ctx.left).copyInto(buf);
-      buf.write('$targetType.$op');
-      return buf;
+      var targetType = compileType(ctx.resolved.type, ctx.span);
+
+      if (targetType == null) {
+        return null;
+      } else {
+        var op = compileBinaryOperator(ctx.operator);
+        var buf = new CodeBuffer();
+        compileExpression(ctx.right).copyInto(buf);
+        compileExpression(ctx.left).copyInto(buf);
+        buf.write('$targetType.$op');
+        return buf;
+      }
     }
 
     throw new UnimplementedError(
         'Cannot yet compile ${ctx.runtimeType} to WASM!!!');
   }
 
-  String compileType(ShrubType ctx) {
+  String compileType(ShrubType ctx, FileSpan span) {
     if (ctx is IntegerType) {
       return 'i${ctx.size}';
     }
 
     if (ctx is FloatType) {
       return 'f64';
+    }
+
+    if (ctx is UnionType) {
+      errors.add(new ShrubException(
+          ShrubExceptionSeverity.error,
+          span,
+          '`${ctx.qualifiedName}` is a Shrub union type, ' +
+              'and therefore cannot be compiled directly to WASM. ' +
+              'To read a value labeled as a union type, you *must* ' +
+              'use a `match` expression.',
+          'Example: match (x) { case Foo => ... case Bar => ... }'));
+      return null;
     }
 
     throw new UnimplementedError(

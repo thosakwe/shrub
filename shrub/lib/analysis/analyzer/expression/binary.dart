@@ -45,8 +45,8 @@ class BinaryAnalyzer {
             ShrubExceptionSeverity.error,
             expression.left.span,
             'Cannot infer which type of value this ' +
-                '"${expression.operator.span.text}" operation produces. ' +
-                'The left side, the parameter "${resolvedLeft.name}", ' +
+                '"${expression.operator.span.text}" operation produces.',
+            'The left side, the parameter "${resolvedLeft.name}", ' +
                 'has not been given an explicit type; therefore, Shrub ' +
                 'attempted to resolve the type of the right side, and ' +
                 'use it to deduce the type of "${resolvedLeft.name}". ' +
@@ -76,8 +76,8 @@ class BinaryAnalyzer {
           ShrubExceptionSeverity.error,
           expression.operator.span,
           'Cannot apply the operation "${expression.operator.span.text}" ' +
-              'to two objects of incompatible types. ' +
-              'While the left side resolves to `${left.qualifiedName}`' +
+              'to two objects of incompatible types.',
+          'While the left side resolves to `${left.qualifiedName}`' +
               ', the right side resolves to `${right.qualifiedName}`. ' +
               'Therefore, the operation ' +
               '"${expression.operator.span.text}" is disallowed.'));
