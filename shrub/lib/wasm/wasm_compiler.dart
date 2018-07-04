@@ -95,9 +95,8 @@ class WasmCompiler {
 
     if (ctx is FloatLiteralContext) {
       var constantValue = ctx.getConstantValue(errors.add);
-      var size = (ctx.resolved.type as FloatType).size;
       return constantValue == null ? null : new CodeBuffer()
-        ..write('f$size.const $constantValue');
+        ..write('f64.const $constantValue');
     }
 
     if (ctx is SimpleIdentifierContext) {

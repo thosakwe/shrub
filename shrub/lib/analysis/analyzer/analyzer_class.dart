@@ -72,6 +72,17 @@ class Analyzer {
       return scope;
     }
 
+    if (expression is FloatLiteralContext) {
+      var constantValue = expression.getConstantValue(context.errors.add);
+
+      if (constantValue != null) {
+        expression.resolved = new ShrubObject(context.module,
+            context.moduleSystemView.coreModule.floatType, expression.span);
+      }
+
+      return scope;
+    }
+
     if (expression is SimpleIdentifierContext) {
       var symbol = scope[expression.name];
 
@@ -175,8 +186,7 @@ class Analyzer {
       } else if (left is FloatType) {
         expression.resolved = new Binary(
           context.module,
-          context.moduleSystemView.coreModule
-              .chooseSmallestFloatType(left, right as FloatType),
+          context.moduleSystemView.coreModule.floatType,
           expression,
           resolvedLeft,
           expression.operator,
