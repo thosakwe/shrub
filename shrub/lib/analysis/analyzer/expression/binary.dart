@@ -70,7 +70,7 @@ class BinaryAnalyzer {
 
     if (resolvedRight is ShrubFunctionParameter &&
         resolvedRight.type is UnknownType) {
-      resolvedRight.type = left;
+      right = resolvedRight.type = left;
     } else if (!left.isExactly(right)) {
       context.errors.add(new ShrubException(
           ShrubExceptionSeverity.error,
@@ -82,7 +82,7 @@ class BinaryAnalyzer {
               'Therefore, the operation ' +
               '"${expression.operator.span.text}" is disallowed.'));
       return scope;
-    }
+    };
 
     if (left is IntegerType) {
       expression.resolved = new Binary(
