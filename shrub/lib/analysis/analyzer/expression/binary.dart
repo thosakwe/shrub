@@ -2,13 +2,13 @@ import 'dart:async';
 import 'package:shrub/shrub.dart';
 import 'package:symbol_table/symbol_table.dart';
 
-class BinaryExpressionAnalyzer {
+class BinaryAnalyzer {
   final Analyzer analyzer;
   final ExpressionAnalyzer expressionAnalyzer;
 
-  BinaryExpressionAnalyzer(this.analyzer, this.expressionAnalyzer);
+  BinaryAnalyzer(this.analyzer, this.expressionAnalyzer);
 
-  Future<SymbolTable<ShrubObject>> analyze(BinaryExpressionContext expression,
+  Future<SymbolTable<ShrubObject>> analyze(BinaryContext expression,
       SymbolTable<ShrubObject> scope, AnalysisContext context) async {
     // TODO: Support boolean
     scope = await expressionAnalyzer.analyze(expression.left, scope, context);

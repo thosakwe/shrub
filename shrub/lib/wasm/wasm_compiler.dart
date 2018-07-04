@@ -106,7 +106,7 @@ class WasmCompiler {
       return new CodeBuffer()..writeln('get_local \$${ctx.name}');
     }
 
-    if (ctx is BinaryExpressionContext) {
+    if (ctx is BinaryContext) {
       // TODO: Handle booleans?
       var targetType = compileType(ctx.resolved.type);
       var op = compileBinaryOperator(ctx.operator);

@@ -4,13 +4,16 @@ import 'package:symbol_table/symbol_table.dart';
 
 class ExpressionAnalyzer {
   final Analyzer analyzer;
-  BinaryExpressionAnalyzer _binaryExpressionAnalyzer;
+  BinaryAnalyzer _binaryAnalyzer;
+  InvocationAnalyzer _invocationAnalyzer;
 
   ExpressionAnalyzer(this.analyzer);
 
-  BinaryExpressionAnalyzer get binaryExpressionAnalyzer =>
-      _binaryExpressionAnalyzer ??=
-          new BinaryExpressionAnalyzer(analyzer, this);
+  BinaryAnalyzer get binaryAnalyzer =>
+      _binaryAnalyzer ??= new BinaryAnalyzer(analyzer, this);
+
+  InvocationAnalyzer get invocationAnalyzer =>
+      _invocationAnalyzer ??= new InvocationAnalyzer(analyzer, this);
 
   Future<SymbolTable<ShrubObject>> analyze(ExpressionContext expression,
       SymbolTable<ShrubObject> scope, AnalysisContext context) async {
@@ -24,8 +27,12 @@ class ExpressionAnalyzer {
       return await analyzeIdentifier(expression, scope, context);
     }
 
-    if (expression is BinaryExpressionContext) {
-      return await binaryExpressionAnalyzer.analyze(expression, scope, context);
+    if (expression is BinaryContext) {
+      return await binaryAnalyzer.analyze(expression, scope, context);
+    }
+
+    if (expression is InvocationContext) {
+      return await invocationAnalyzer.analyze(expression, scope, context);
     }
 
     throw new UnimplementedError(

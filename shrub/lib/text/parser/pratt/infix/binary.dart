@@ -14,7 +14,7 @@ class BinaryExpressionParselet implements InfixParselet {
           token.span, 'Missing expression after "${token.span.text}".'));
       return null;
     } else {
-      return new BinaryExpressionContext(
+      return new BinaryContext(
           left.span.expand(token.span).expand(right.span), left, token, right);
     }
   }
