@@ -40,3 +40,26 @@ class IntegerLiteralContext extends ExpressionContext<int> {
     }
   }
 }
+
+class FloatLiteralContext extends ExpressionContext<double> {
+  final Token token;
+
+  FloatLiteralContext(this.token);
+
+  @override
+  FileSpan get span => token.span;
+
+  @override
+  bool get hasConstantValue => true;
+
+  @override
+  double getConstantValue(Function onError) {
+    try {
+      return double.parse(token.span.text);
+    } on FormatException catch (e) {
+      onError(
+          new ShrubException(ShrubExceptionSeverity.error, span, e.message));
+      return null;
+    }
+  }
+}
