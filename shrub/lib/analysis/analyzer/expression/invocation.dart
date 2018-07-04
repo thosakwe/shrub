@@ -99,7 +99,7 @@ class InvocationAnalyzer {
       }
     }
 
-    // TODO: Enforce type checking, IF the parameter has a type annotation?...
+    // Enforce type safety.
     for (var name in resolvedArguments.keys) {
       var param = fn.parameters.firstWhere((p) => p.name == name);
       var arg = resolvedArguments[name].resolved;
@@ -116,7 +116,21 @@ class InvocationAnalyzer {
             'The parameter "$name" expects a value of type ' +
                 '`${param.type.qualifiedName}`, but you provided ' +
                 ' a value of type `${arg.type.qualifiedName}`. ' +
-                'These two are incompatible; therefore, this invocation is invalid.'));
+                'These two types are incompatible; therefore, this invocation is invalid.'));
+        return scope;
+      }
+
+      // TODO: Size of integer types?
+    }
+
+    // Make sure every parameter has a value provided.
+    for (var p in fn.parameters) {
+      // TODO: Optional parameters
+      if (!resolvedArguments.containsKey(p.name)) {
+        context.errors.add(new ShrubException(
+            ShrubExceptionSeverity.error,
+            expression.span,
+            'Missing a value for required parameter "${p.name}".'));
         return scope;
       }
     }

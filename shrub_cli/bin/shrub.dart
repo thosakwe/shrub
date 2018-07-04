@@ -44,6 +44,13 @@ main() async {
     stderr
       ..writeln(color.wrap(error.toString()))
       ..writeln(color.wrap(error.span.highlight()));
+
+    if (error.additionalDetails != null) {
+      stderr
+        ..writeln()
+        ..writeln(color.wrap(error.additionalDetails))
+        ..writeln();
+    }
   }
 
   if (result.type == AnalysisResultType.failure) {

@@ -4,7 +4,7 @@ import 'package:source_span/source_span.dart';
 class ShrubException implements Exception {
   final ShrubExceptionSeverity severity;
   final FileSpan span;
-  final String _message;
+  final String message;
   final String additionalDetails;
 
   static String severityToString(ShrubExceptionSeverity severity) {
@@ -22,12 +22,8 @@ class ShrubException implements Exception {
     }
   }
 
-  ShrubException(this.severity, this.span, this._message,
+  ShrubException(this.severity, this.span, this.message,
       [this.additionalDetails]);
-
-  String get message => additionalDetails == null
-      ? _message
-      : (_message + '\n\n$additionalDetails');
 
   String get toolString {
     return severityToString(severity) + ': ${span.start.toolString}';
