@@ -120,7 +120,11 @@ class WasmCompiler {
 
   String compileType(ShrubType ctx) {
     if (ctx is IntegerType) {
-      return 'i32';
+      return 'i${ctx.size}';
+    }
+
+    if (ctx is FloatType) {
+      return 'f64';
     }
 
     throw new UnimplementedError(
