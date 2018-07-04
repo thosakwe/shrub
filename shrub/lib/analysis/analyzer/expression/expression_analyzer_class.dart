@@ -87,6 +87,8 @@ class ExpressionAnalyzer {
             'The name "${expression.name}" does not exist in this context.'));
       } else {
         expression.resolved = symbol.value;
+        symbol.value.usages
+            .add(new SymbolUsage(SymbolUsageType.read, expression.span));
       }
 
       return scope;

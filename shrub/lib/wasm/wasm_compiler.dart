@@ -124,6 +124,29 @@ class WasmCompiler {
       }
     }
 
+    if (ctx is InvocationContext) {
+      var invocation = ctx.resolved as ShrubInvocation;
+      var fn = invocation.function;
+      // TODO: WTF is the order of arguments to be passed?
+      var buf = new CodeBuffer();
+
+      for (var p in fn.parameters) {
+        var arg = invocation.arguments[p.name];
+        var b = compileExpression(arg);
+
+        if (b == null) {
+          errors.add(new ShrubException(ShrubExceptionSeverity.error, arg.span,
+              'Encountered an error while compiling this argument.'));
+          return null;
+        } else {
+          b.copyInto(buf);
+        }
+      }
+
+      buf.writeln('call \$${fn.name}');
+      return buf;
+    }
+
     throw new UnimplementedError(
         'Cannot yet compile ${ctx.runtimeType} to WASM!!!');
   }

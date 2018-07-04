@@ -3,7 +3,7 @@ import 'package:source_span/source_span.dart';
 
 class ShrubInvocation extends ShrubObject {
   final ShrubFunction function;
-  final Map<String, ShrubObject> arguments;
+  final Map<String, ExpressionContext> arguments;
   final InvocationContext declaration;
 
   ShrubInvocation(

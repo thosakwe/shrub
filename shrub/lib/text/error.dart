@@ -27,12 +27,10 @@ class ShrubException implements Exception {
 
   String get message => additionalDetails == null
       ? _message
-      : (_message + '\n$additionalDetails');
+      : (_message + '\n\n$additionalDetails');
 
   String get toolString {
-    return severityToString(severity) +
-        ': ${span.start.toolString}' +
-        additionalDetails;
+    return severityToString(severity) + ': ${span.start.toolString}';
   }
 
   @override

@@ -47,7 +47,7 @@ class InvocationAnalyzer {
       return scope;
     }
 
-    var resolvedArguments = <String, ShrubObject>{};
+    var resolvedArguments = <String, ExpressionContext>{};
     int positional = 0;
 
     for (var argument in expression.arguments) {
@@ -95,14 +95,14 @@ class InvocationAnalyzer {
       }
 
       if (p != null) {
-        resolvedArguments[p.name] = argument.expression.resolved;
+        resolvedArguments[p.name] = argument.expression;
       }
     }
 
     // TODO: Enforce type checking, IF the parameter has a type annotation?...
     for (var name in resolvedArguments.keys) {
       var param = fn.parameters.firstWhere((p) => p.name == name);
-      var arg = resolvedArguments[name];
+      var arg = resolvedArguments[name].resolved;
 
       if (arg is ShrubFunctionParameter) {
         arg.type = param.type;
@@ -111,6 +111,8 @@ class InvocationAnalyzer {
       }
     }
 
+    fn.usages.add(
+        new SymbolUsage(SymbolUsageType.invocation, expression.target.span));
     expression.resolved =
         new ShrubInvocation(context.module, fn, resolvedArguments, expression);
     return scope;

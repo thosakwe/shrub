@@ -37,8 +37,10 @@ class ShrubFunctionParameter extends ShrubObject {
       _type = value;
     } else if (_type is UnionType) {
       (_type as UnionType).alternatives.add(value);
-    } else {
+    } else if (!value.isExactly(_type)) {
       _type = new UnionType(module)..alternatives.addAll([_type, value]);
     }
+
+    // TODO: Find least-common-denominator type if they are assignable to each other
   }
 }
