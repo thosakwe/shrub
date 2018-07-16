@@ -46,13 +46,18 @@ class ExpressionAnalyzer {
 
       if (constantValue != null) {
         expression.resolved = new ShrubObject(
-            context.module,
-            context.moduleSystemView.coreModule.chooseIntegerType(
-              constantValue,
-              expression.span,
-              context.errors.add,
-            ),
-            expression.span);
+          context.module,
+          context.moduleSystemView.coreModule.int32Type,
+          expression.span,
+        );
+//        expression.resolved = new ShrubObject(
+//            context.module,
+//            context.moduleSystemView.coreModule.chooseIntegerType(
+//              constantValue,
+//              expression.span,
+//              context.errors.add,
+//            ),
+//            expression.span);
       }
 
       return scope;

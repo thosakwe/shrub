@@ -17,8 +17,7 @@ class BinaryAnalyzer {
       context.errors.add(new ShrubException(
           ShrubExceptionSeverity.error,
           expression.left.span,
-          'Encountered an error while resolving the left side of this "${expression
-              .operator.span.text}" expression.'));
+          'Encountered an error while resolving the left side of this "${expression.operator.span.text}" expression.'));
       return scope;
     }
 
@@ -28,8 +27,7 @@ class BinaryAnalyzer {
       context.errors.add(new ShrubException(
           ShrubExceptionSeverity.error,
           expression.right.span,
-          'Encountered an error while resolving the right side of this "${expression
-              .operator.span.text}" expression.'));
+          'Encountered an error while resolving the right side of this "${expression.operator.span.text}" expression.'));
       return scope;
     }
 
@@ -82,13 +80,15 @@ class BinaryAnalyzer {
               'Therefore, the operation ' +
               '"${expression.operator.span.text}" is disallowed.'));
       return scope;
-    };
+    }
+    ;
 
     if (left is IntegerType) {
       expression.resolved = new Binary(
         context.module,
-        context.moduleSystemView.coreModule
-            .chooseSmallestIntegerType(left, right as IntegerType),
+        left,
+//        context.moduleSystemView.coreModule
+//            .chooseSmallestIntegerType(left, right as IntegerType),
         expression,
         resolvedLeft,
         expression.operator,
