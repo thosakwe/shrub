@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:shrub/shrub.dart';
 
 class FunctionAnalyzer {
@@ -18,10 +19,16 @@ class FunctionAnalyzer {
       function.scope.create(p.name, value: p, constant: true);
     }
 
-    await analyzer.expressionAnalyzer
-        .analyze(function.expression, function.scope, context);
-    fn.returnType = function.expression.resolved?.type ??
-        context.moduleSystemView.coreModule.unknownType;
+    if (function.isExternal) {
+      // TODO: True type resolution
+      function.returnType.resolved = context.moduleSystemView.coreModule.int32Type;
+      fn.returnType = function.returnType.resolved;
+    } else {
+      await analyzer.expressionAnalyzer
+          .analyze(function.expression, function.scope, context);
+      fn.returnType = function.expression.resolved?.type ??
+          context.moduleSystemView.coreModule.unknownType;
+    }
     return fn;
   }
 }

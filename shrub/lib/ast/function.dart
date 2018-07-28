@@ -7,9 +7,12 @@ class FunctionContext {
   final FileSpan span;
   final IdentifierContext identifier;
   final ExpressionContext expression;
+  final TypeContext returnType;
   SymbolTable<ShrubObject> scope;
 
-  FunctionContext(this.span, this.identifier, this.expression);
+  FunctionContext(this.span, this.identifier, this.expression, this.returnType);
+
+  bool get isExternal => expression == null && returnType != null;
 }
 
 class ParameterContext {

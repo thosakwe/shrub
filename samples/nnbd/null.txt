@@ -4,7 +4,7 @@
 //
 // In such a case, return `null`, the only instance of the `Null` type.
 
-// The return type here is `Number | Null`.
+// The return type here is `Num | Null`.
 fn evenOrNull [n] =>
     (n % 2 == 0)
     ? n
@@ -15,5 +15,5 @@ fn evenOrNull [n] =>
 fn matchIt [n] => match n {
     case Null => "Wow, it's null!"
 
-    case Number => "Here's the number: %{n}"
+    case Num => "Here's the number: %{n}"
 }

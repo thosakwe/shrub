@@ -4,7 +4,7 @@ WebAssembly.instantiateStream(fetch('/port.wasm')).then(result => {
 
   ports.listen('fibonacci', port => {
     // Don't actually compute fibonacci, because we're lazy.
-    port.listen(n => port.sendNumber(n * 23 / 2));
+    port.listen(n => port.sendNum(n * 23 / 2));
   });
 
   ports.listen('my_stream', port => {

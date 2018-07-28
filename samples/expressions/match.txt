@@ -1,9 +1,9 @@
 fn matchIt [x] => match x {
-    case Number => 34
+    case Num => 34
     case String => x.length
 }
 
 fn matchNamed[y] => match(y * 2) as z {
-    case Number => 34
+    case Num => 34
     case Error => "Nooo!!! ${z}"
 }

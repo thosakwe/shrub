@@ -50,6 +50,7 @@ enum TokenType {
 
   // Keywords
   as_,
+  external,
   fn,
   import_,
   match,

@@ -9,4 +9,4 @@
 //
 // When declaring external functions, you must explicitly declare type information 
 //
-external fn some_external_process [a: Number, b: String] => Number
+external fn some_external_process [a: Num, b: String] => Num

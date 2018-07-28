@@ -48,6 +48,11 @@ class WasmCompiler {
     buf.write('(func \$${ctx.name}');
     buf.lastLine.sourceMappings[ctx.span] = buf.lastLine.span;
 
+    if (ctx.declaration.isExternal) {
+      // TODO: Better way of ensuring imports
+      buf.write(' (import "imports" "${ctx.name}")');
+    }
+
     for (var param in ctx.parameters) {
       if (param.type is UnknownType) {
         errors.add(new ShrubException(
@@ -72,17 +77,20 @@ class WasmCompiler {
 
     var returnType =
         compileType(ctx.returnType, ctx.declaration.identifier.span);
-    buf
-      ..writeln(' (result $returnType)')
-      ..indent();
+    buf..write(' (result $returnType)');
 
-    var returnValue = compileExpression(ctx.declaration.expression);
+    if (ctx.declaration.isExternal) {
+      return buf..write(')');
+    } else {
+      buf..writeln()..indent();
+      var returnValue = compileExpression(ctx.declaration.expression);
 
-    if (buf.isNotEmpty) {
-      if (returnValue.lines.length == 1) {
-        buf.write(returnValue.lines[0].text);
-      } else {
-        returnValue.copyInto(buf);
+      if (returnValue.isNotEmpty) {
+        if (returnValue.lines.length == 1) {
+          buf.write(returnValue.lines[0].text);
+        } else {
+          returnValue.copyInto(buf);
+        }
       }
     }
 

@@ -56,6 +56,7 @@ class CodeLexer {
 
     // Keywords
     'as': TokenType.as_,
+    'external': TokenType.external,
     'fn': TokenType.fn,
     'import': TokenType.import_,
     'match': TokenType.match,
