@@ -17,6 +17,8 @@ class CodeLexer {
   static final Map<Pattern, TokenType> _patterns = {
     // Symbols
     '=>': TokenType.arrow,
+    ':': TokenType.colon,
+    '::': TokenType.doubleColon,
     ',': TokenType.comma,
     '[': TokenType.lBracket,
     ']': TokenType.rBracket,

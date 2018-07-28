@@ -95,7 +95,8 @@ class FunctionParser {
     if (fn == null) {
       parser.errors.add(new ShrubException(ShrubExceptionSeverity.error,
           lastSpan, 'Missing "fn" in external function definition.'));
-      return null;}
+      return null;
+    }
 
     var id = parser.nextSimpleIdentifier();
 
@@ -146,16 +147,7 @@ class FunctionParser {
 
     span = span.expand(lastSpan = arrow.span);
 
-    // TODO: Real type parser
-    var typeId = parser.nextSimpleIdentifier();
-
-    if (typeId == null) {
-      parser.errors.add(new ShrubException(ShrubExceptionSeverity.error,
-          lastSpan, 'Missing return type in function definition.'));
-      return null;
-    }
-
-    var type = new IdentifierTypeContext(typeId);
+    var type = parser.typeParser.parse();
 
     if (type == null) {
       parser.errors.add(new ShrubException(ShrubExceptionSeverity.error,

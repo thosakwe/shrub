@@ -12,6 +12,8 @@ enum TokenType {
   // Symbols
   arrow,
   comma,
+  colon,
+  doubleColon,
   lBracket,
   rBracket,
   lCurly,

@@ -6,6 +6,7 @@ class Parser extends BaseParser {
 
   ExpressionParser _expressionParser;
   FunctionParser _functionParser;
+  TypeParser _typeParser;
 
   Parser(Lexer lexer) : super(lexer);
 
@@ -14,6 +15,8 @@ class Parser extends BaseParser {
 
   FunctionParser get functionParser =>
       _functionParser ??= new FunctionParser(this);
+
+  TypeParser get typeParser => _typeParser ??= new TypeParser(this);
 
   CompilationUnitContext parseCompilationUnit() {
     var functions = <FunctionContext>[];

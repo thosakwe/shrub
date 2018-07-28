@@ -15,3 +15,18 @@ class IdentifierTypeContext extends TypeContext {
   @override
   FileSpan get span => identifier.span;
 }
+
+class StructTypeContext extends TypeContext {
+  final FileSpan span;
+  final List<StructFieldContext> fields;
+
+  StructTypeContext(this.span, this.fields);
+}
+
+class StructFieldContext {
+  final FileSpan span;
+  final IdentifierContext identifier;
+  final TypeContext type;
+
+  StructFieldContext(this.span, this.identifier, this.type);
+}
