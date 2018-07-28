@@ -21,8 +21,9 @@ class FunctionAnalyzer {
 
     if (function.isExternal) {
       // TODO: True type resolution
-      function.returnType.resolved = context.moduleSystemView.coreModule.int32Type;
-      fn.returnType = function.returnType.resolved;
+      await analyzeType(function.returnType, context);
+      fn.returnType = function.returnType.resolved ??
+          context.moduleSystemView.coreModule.unknownType;
     } else {
       await analyzer.expressionAnalyzer
           .analyze(function.expression, function.scope, context);
@@ -30,5 +31,48 @@ class FunctionAnalyzer {
           context.moduleSystemView.coreModule.unknownType;
     }
     return fn;
+  }
+
+  Future analyzeType(TypeContext type, AnalysisContext context) async {
+    if (type.resolved != null) return;
+    type.resolved = context.moduleSystemView.coreModule.unknownType;
+
+    if (type is IdentifierTypeContext) {
+      // TODO: Search imported modules
+      var module = context.module;
+
+      while (module != null) {
+        var found = module.types.firstWhere(
+            (t) => t.name == type.identifier.name,
+            orElse: () => null);
+
+        if (found != null) {
+          type.resolved = found;
+          return;
+        }
+
+        module = module.parent;
+      }
+    } else if (type is StructTypeContext) {
+      var structType = new ObjectType(context.module);
+
+      for (var field in type.fields) {
+        await analyzeType(field.type, context);
+        field.type.resolved ??= context.moduleSystemView.coreModule.unknownType;
+
+        if (field.type.resolved ==
+            context.moduleSystemView.coreModule.unknownType) {
+          context.errors.add(new ShrubException(
+              ShrubExceptionSeverity.error,
+              field.span,
+              'Could not resolve the type of field "${field.identifier.name}".'));
+        } else {
+          structType.fields[field.identifier.name] = field.type.resolved;
+        }
+      }
+
+      type.resolved = structType;
+      return;
+    }
   }
 }
