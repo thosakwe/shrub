@@ -1,2 +1,2 @@
 # shrub
-🌳 A fast, strongly-typed, functional language that compiles to WebAssembly. 🌳
+🌳 A high-level, strongly-typed language that compiles to WebAssembly.

@@ -1,0 +1,23 @@
+with stdio
+
+type Numerical = Computable | Num
+
+type IComputable = interface {
+    compute(): Num
+}
+
+type Three = class : IComputable {
+    override compute(): Num => 3
+}
+
+timesTwo(x: IComputable): Num {
+    return match (x) {
+        case IComputable => x.compute() * 2
+        case Num => x * 2
+    }
+}
+
+main() {
+    print(timesTwo(2)) // 4
+    print(timesTwo(new Three)) // 6
+}

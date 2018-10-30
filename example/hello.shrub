@@ -1,0 +1,5 @@
+with stdio
+
+main() {
+    print("Hello, Shrub!");
+}

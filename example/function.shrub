@@ -1,0 +1,33 @@
+with stdio
+
+// Functions can be declared in the top level of a module.
+// No keyword is used to define them.
+
+hello() {
+    print("Yup!")
+}
+
+// Functions can declare a return type.
+//
+// If none is declared, a function returns `Void`.
+three() : Num => 1 + 2
+
+// Functions can take parameters.
+add(x: Num, y: Num) : Num => x + 2
+
+addThree(x: Num): Num {
+    // Values can be passed by name.
+    return add(x, y: 3)
+}
+
+// Parameters can have default values.
+//
+// In this case, a user could call addMultipleOfTwo(3), and it would be
+// equivalent to a call of addMultipleOfTwo(3, 24).
+//
+// Only value types, or union types containing a value type,
+// may be used for default parameters.
+
+addMultipleOfTwo(x: Num, multiplier: Num = 24) : Num {
+    return add(x, 2 * multiplier)
+}
