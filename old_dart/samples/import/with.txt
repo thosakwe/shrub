@@ -1,9 +1,0 @@
-with Async
-with Console
-
-// All symbols from `Async` and `Console` are imported at the same level of the
-// symbols within this file.
-fn main => listen(
-    emit(1, 2, 3),
-    [n] => log(n)
-)

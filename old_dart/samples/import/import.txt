@@ -1,4 +1,0 @@
-import DOM
-
-// The namespace `DOM` is now available.
-fn main => DOM::querySelector('#app')

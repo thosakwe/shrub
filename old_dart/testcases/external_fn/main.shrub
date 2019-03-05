@@ -1,3 +1,0 @@
-external fn doSomething [x] => Num
-
-fn main => 3 * doSomething(4)

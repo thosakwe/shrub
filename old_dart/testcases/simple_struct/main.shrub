@@ -1,3 +1,0 @@
-external fn yes [] => { a: Num, b: Num }
-
-fn main => yes()

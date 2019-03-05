@@ -1,9 +1,0 @@
-with DOM
-
-fn redButton => applyStyle (
-    querySelector('#red-button'),
-
-    style(
-        backgroundColor = 'red'
-    )
-)

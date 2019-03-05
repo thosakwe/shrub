@@ -1,3 +1,0 @@
-fn line [x] => 3 * x + 5
-
-fn main => line(32)

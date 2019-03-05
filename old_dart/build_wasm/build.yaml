@@ -1,9 +1,0 @@
-builders:
-  wasm:
-    builder_factories:
-      - wasmBuilder
-    auto_apply: all_packages
-    import: "package:build_wasm/build_wasm.dart"
-    build_extensions:
-      .wasm:
-        - .wat

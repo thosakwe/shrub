@@ -1,1 +1,0 @@
-fn main => each([1, 2, 3, 4], [n] => Console::log(n))
