@@ -26,7 +26,7 @@ let () =
   let addRow pk =
     let attrs = Dict [("href", pk.url); ("title", pk.name)];
     let a = Dom.createElement "a" attrs [Dom.text pk.name];
-    Dom.append (Dom.querySelector "body") a;
+    Dom.append a (Dom.querySelector "body")
   ;
   List.forEach addRow pokemon
 ```
