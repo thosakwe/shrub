@@ -1,4 +1,4 @@
-type  t = func list
+type t = func list
 and func = string * branch list
 and branch = string * (instruction list)
 and instruction =
