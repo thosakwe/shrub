@@ -19,7 +19,7 @@ and stmt =
 and expr =
   | VarGet of param
   | IntLiteral of Lexing.position * int
-  | FloatLiteral of Lexing.position * float
+  (* | FloatLiteral of Lexing.position * float *)
 
 let list_of_stmt = function
   | Block (_, stmts) -> stmts

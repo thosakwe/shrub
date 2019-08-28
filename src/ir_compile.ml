@@ -5,9 +5,32 @@ type compile_state =
     return_type: Analysis.rtt;
   }
 
-let visit_stmt state node =
+let append_stmt state instr =
+  let (name, instrs) = state.func in
+  {
+    state with
+    func =  (name, instr :: instrs)
+  }
+
+let rec visit_stmt state node =
   match node with
-    _ -> 23
+  | Ast.Block (_, body) -> begin
+      let visit_one_stmt node state =
+        visit_stmt state node
+      in
+      List.fold_right visit_one_stmt body state
+    end
+  | Ast.Return (pos, v_opt) -> begin
+      match v_opt with
+      | None -> append_stmt state Ir.ReturnVoid
+      | Some v -> begin
+          match v with
+          (* TODO: Get size/signed *)
+          | Ast.IntLiteral (_, value) -> append_stmt state (Ir.ReturnInt (true, 4, value))
+          (* TODO: Other stmts *)
+          | _ -> raise (Ast.ShrubException (pos, Ast.Error, "Unimplemented stmt"))
+        end
+    end
 
 let visit_type scope node =
   match node with

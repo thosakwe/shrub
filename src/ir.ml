@@ -1,6 +1,7 @@
 type t = func list
-and func = string * branch list
-and branch = string * (instruction list)
+and func = string * (instruction list)
+(* and func = string * branch list *)
+(* and branch = string * (instruction list) *)
 and instruction =
   | ReturnVoid
   (* signed * size * value *)
