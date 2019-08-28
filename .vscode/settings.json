@@ -1,0 +1,12 @@
+{
+  "files.associations": {
+    "*.module": "json",
+    "*.library": "json",
+    "*.s": "asm",
+    "*.asm": "asm",
+    "*.flml": "xml",
+    "bashrc": "shellscript",
+    "exclude": "gitignore",
+    "variant": "cpp"
+  }
+}
