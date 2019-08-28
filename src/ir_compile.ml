@@ -48,7 +48,7 @@ let visit_type scope node =
       | _ -> begin
           let sym_opt = Scope.resolve name scope in
           match sym_opt with
-          | Some (Analysis.Type x) -> Analysis.VoidType
+          | Some (Analysis.Type t) -> t
           | _ -> 
             let msg = "No type named '" ^ name ^ "' exists in the current context." in
             raise (Ast.ShrubException (pos, Ast.Error, msg))
@@ -87,4 +87,12 @@ let visit_top_level scope node =
 
 let ir_of_ast prog =
   let (_, top_level) = prog in
-  List.map visit_top_level top_level
+  let rec visit scope func_list node_list =
+    match node_list with
+    | [] -> scope
+    | node :: rest -> begin
+        let {scope; _} = visit_top_level scope node in
+        visit scope func_list rest
+      end
+  in
+  let funcs = visit 
