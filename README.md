@@ -1,2 +1,2 @@
 # shrub
-🌳 A high-level language for systems programming.
+🌳 (Yet another) compile-to-WebAssembly language.

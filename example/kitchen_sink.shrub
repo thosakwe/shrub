@@ -1,0 +1,55 @@
+// This is a comment.
+
+/* This is a comment, too.*/
+
+// This is a function.
+i32 fib(i32 n) {
+  if (n <= 1) return n;
+  return fib(n - 1) + fib(n - 2);
+}
+
+// This is a generic function.
+// Call it: var fib13 = gfib<f64>(4);
+T gfib<T>(i32 n) {
+  if (n <= 1) return n as T;
+  return gfib<T>(n - 1) + gfib<T>(n - 2);
+}
+
+// This is a class.
+// All fields/methods are protected, unless marked as "export".
+class Cat {
+  // Classes can have constructors, via the "new" keyword.
+  export new(i32 age) {
+    // Do something...
+  }
+
+  export void meow() {
+    // Print something out...
+  }
+}
+
+// Create an instance of a class...
+void catDemo() {
+  var cat = new Cat(24);
+  cat.meow();
+}
+
+// This is an immutable "data class".
+// Keep reading to see some features of data classes.
+data class Dog {
+  i32 numLegs;
+}
+
+// Restructuring
+Dog addLegs(Dog dog) {
+  return {...dog, numLegs: dog.numLegs + 2};
+}
+
+// Deep equality
+bool dogsAreEqual(Dog a, Dog b) {
+  return a == b;
+}
+
+// In addition, data classes generate hashes, and the
+// following operators:
+// < <= > >= == !=
