@@ -1,0 +1,93 @@
+import "./container"
+
+export type AsyncOr<T> = sum
+  | IsSync(T)
+  | IsAsync(Async<T>)
+
+export interface Async<T> {
+  Async<T> then(fn (T) -> AsyncOr<void> f);
+
+  Async<T> onError(fn (Exception) -> AsyncOr<void> f);
+}
+
+export class ImmediateAsync<T> implements Async<T> {
+  T value;
+
+  new(this.value);
+
+  Async<T> then(fn (T) -> AsyncOr<void> f) {
+    f(value)
+    return this
+  }
+
+  Async<T> onError(fn (Exception) -> AsyncOr<void> f) -> this
+}
+
+Async<T> toAsync<T>(AsyncOr<T> v) {
+  return match v with
+    | IsSync(val) -> ImmediateAsync<T>(val)
+    | IsAsync(val) -> value
+}
+
+export AsyncController<T> implements Async<T> {
+  Maybe<fn (T) -> AsyncOr<void>> valueompleter = None
+  Maybe<fn (Exception) -> AsyncOr<void>> errorCompleter = None
+  Maybe<Exception> pendingException = None
+  Maybe<T> pendingValue = None
+
+  // TODO: Prevent duplicate completes
+
+  void complete(T value) {
+    match valueCompleter with
+      | Some(f) -> f(value)
+      | None
+        {
+          pendingValue = Some(value)
+        }
+  }
+
+  void completeError(Exception exception) {
+    match errorCompleter with
+      | Some(f) -> f(exception)
+      | None
+        {
+          pendingException = Some(exception)
+        }
+  }
+
+  Async<T> then(fn (T) -> AsyncOr<void> f) {
+    match pendingValue with
+      | Some(val) -> f(val)
+      | None
+        {
+          valueCompleter = Some(f)
+        } 
+    return this
+  }
+
+  Async<T> onError(fn (Exception) -> AsyncOr<void> f) {
+    match pendingException with
+      | Some(val) -> f(val)
+      | None
+        {
+          errorCompleter = Some(f)
+        } 
+    return this
+  }
+}
+
+export abstract class Stream<T> {
+  export bool get isDone;
+
+  export Async<T> next();
+}
+
+export interface Sink<T> {
+  void put(T value);
+
+  Async<void> close();
+}
+
+export class StreamBuffer<T> extends Stream<T> implements Sink<T> {
+  // TODO: ...
+}

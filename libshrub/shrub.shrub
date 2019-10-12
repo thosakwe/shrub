@@ -1,0 +1,7 @@
+type Maybe<T> = sum
+  | None
+  | Some(T)
+
+abstract class Exception {
+
+}
