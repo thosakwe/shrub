@@ -1,3 +1,9 @@
+import "./some_file" // Defaults to ".shrub"
+import "./some_file.shrub"
+import "./some_external.wast" // Shrub can import symbols from WAST files.
+import "./some_external.wasm" // Shrub can also import from WASM files (requires wasm2wat)
+import {foo, bar} from "./some_file"
+
 // This is a comment.
 
 /* This is a comment, too.*/
@@ -53,3 +59,9 @@ bool dogsAreEqual(Dog a, Dog b) {
 // In addition, data classes generate hashes, and the
 // following operators:
 // < <= > >= == !=
+
+@someAnnotation
+@SomeOtherAnnotation(24)
+class MyAnnotatedClass {
+
+}
