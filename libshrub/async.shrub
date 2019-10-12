@@ -30,7 +30,7 @@ Async<T> toAsync<T>(AsyncOr<T> v) {
 }
 
 export AsyncController<T> implements Async<T> {
-  Maybe<fn (T) -> AsyncOr<void>> valueompleter = None
+  Maybe<fn (T) -> AsyncOr<void>> valueCompleter = None
   Maybe<fn (Exception) -> AsyncOr<void>> errorCompleter = None
   Maybe<Exception> pendingException = None
   Maybe<T> pendingValue = None
